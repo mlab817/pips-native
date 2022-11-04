@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import type {Node} from 'react';
 import {StatusBar} from 'react-native';
 import {NativeBaseProvider} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
@@ -25,7 +24,7 @@ const App: () => Node = () => {
         <StatusBar hidden />
 
         <Stack.Navigator
-          initialRouteName="Login"
+          initialRouteName="Bottom"
           screenOptions={{
             headerShown: false,
           }}>

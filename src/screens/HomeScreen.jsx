@@ -27,7 +27,7 @@ export default function HomeScreen() {
 		<Box flex={1} safeArea>
 			<Heading mx={2}>Home</Heading>
 			
-			<VStack space={3} mt={5}>
+			<VStack space={3} mt={5} px={2}>
 				{
 					items.map((item,index) => (
 						<Box
@@ -38,6 +38,7 @@ export default function HomeScreen() {
 							w='full'
 							h={20}
 							bordered
+							bg={Colors.secondary}
 							borderColor={Colors.main}>
 							<HStack
 								justifyContent='space-between'>

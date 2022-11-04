@@ -1,20 +1,19 @@
 import React from "react";
 import {
-	Box, Button,
+	Box,
 	Center,
-	Circle,
 	Heading,
 	HStack,
 	Icon,
-	IconButton, Image,
+	IconButton,
 	Input,
 	Pressable,
-	ScrollView,
 	Text,
 	VStack
 } from "native-base";
 import {Colors} from "../constants/colors";
-import {MaterialCommunityIcons, MaterialIcons} from "@expo/vector-icons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import {SwipeListView} from "react-native-swipe-list-view";
 import moment from "moment";
 
@@ -737,7 +736,7 @@ const Swiper = () => (
 
 const renderItem = (data, rowMap) => (
 	<Pressable>
-		<Box mb={3}>
+		<Box mb={2}>
 			<HStack
 				alignItems='center'
 				bg={Colors.white}
@@ -790,15 +789,15 @@ const renderHiddenItem = (data) => (
 
 export default function ProjectsScreen() {
 	return (
-		<Box flex={1} safeArea>
-			<Box bg={Colors.secondary} p={2}>
+		<Box flex={1}>
+			<Box bg={Colors.secondary} p={2} pt={10}>
 				<Heading color={Colors.white} shadow={2}>Projects</Heading>
 				
-				<HStack space={3} my={3} alignItems='center' justifyContent='space-between'>
+				<HStack space={2} my={2} alignItems='center' justifyContent='space-between'>
 					<Input
-						w='85%'
+						w='88%'
 						rounded={5}
-						h={10}
+						h={8}
 						placeholder='Search...'
 						InputLeftElement={<Icon as={<MaterialIcons name='search' size={5} />} ml='2' />}
 						autoCapitalize={false}
@@ -806,24 +805,22 @@ export default function ProjectsScreen() {
 							bg: Colors.white,
 							borderColor: Colors.white
 						}}
-						color={Colors.white}
+						color={Colors.black}
 						bg={Colors.white}
 					/>
-					<IconButton size={10} variant='outline' _icon={{
+					<IconButton size={8} variant='outline' _icon={{
 						as: MaterialCommunityIcons,
 						name: 'sort-alphabetical-ascending-variant',
 						color: Colors.white,
 						size: 6
 					}} borderColor={Colors.white} _pressed={{
-						bg: Colors.white,
+						bg: Colors.secondary,
 						borderColor: Colors.white
-					}} _pressed={{
-						bg: Colors.secondary
 					}} />
 				</HStack>
 			</Box>
 			
-			<Box px={2} pt={3} pb={120}>
+			<Box px={2} pt={3} pb={135}>
 				<Swiper />
 			</Box>
 		</Box>
