@@ -30,6 +30,7 @@
 		F3497AE929134D9600540713 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3497AD929134D9600540713 /* EvilIcons.ttf */; };
 		F3497AEA29134D9600540713 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3497ADA29134D9600540713 /* SimpleLineIcons.ttf */; };
 		F3497AEB29134D9600540713 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3497ADB29134D9600540713 /* MaterialIcons.ttf */; };
+		F3D8BB66291691700074092A /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3D8BB65291691700074092A /* BootSplash.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		F3497AD929134D9600540713 /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
 		F3497ADA29134D9600540713 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		F3497ADB29134D9600540713 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
+		F3D8BB65291691700074092A /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = pipsnative/BootSplash.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 		13B07FAE1A68108700A75B9A /* pipsnative */ = {
 			isa = PBXGroup;
 			children = (
+				F3D8BB65291691700074092A /* BootSplash.storyboard */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -302,6 +305,7 @@
 				F3497ADC29134D9600540713 /* Fontisto.ttf in Resources */,
 				F3497AE729134D9600540713 /* FontAwesome.ttf in Resources */,
 				F3497AE329134D9600540713 /* Foundation.ttf in Resources */,
+				F3D8BB66291691700074092A /* BootSplash.storyboard in Resources */,
 				F3497AE629134D9600540713 /* FontAwesome5_Regular.ttf in Resources */,
 				F3497AE429134D9600540713 /* Ionicons.ttf in Resources */,
 				F3497AE929134D9600540713 /* EvilIcons.ttf in Resources */,
@@ -561,6 +565,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = pipsnative/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PIPS;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -586,6 +592,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = pipsnative/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PIPS;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

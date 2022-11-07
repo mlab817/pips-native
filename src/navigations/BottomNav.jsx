@@ -10,11 +10,15 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ReportScreen from '../screens/ReportScreen';
 import NewProjectScreen from '../screens/NewProjectScreen';
 import ProjectNav from './ProjectNav';
+import SettingNav from './SettingNav';
+import ProjectsNav from './ProjectsNav';
+import {useIsFocused} from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
 const CustomTab = props => {
-  console.log(props.focused);
+  console.log('CustomTab props', props);
+  const isFocused = useIsFocused();
 
   return (
     <Pressable
@@ -22,9 +26,9 @@ const CustomTab = props => {
       h={60}
       w={60}
       rounded="full"
-      bg={Colors.white}
-      top={-30}
-      borderColor={Colors.secondary}
+      bg={isFocused ? Colors.white : Colors.white}
+      top={-25}
+      borderColor={isFocused ? Colors.secondary : Colors.black}
       borderWidth={3}
       shadow={2}>
       {props.children}
@@ -39,9 +43,15 @@ export default function BottomNav() {
     <Tab.Navigator
       initialRouteName="NewProjectScreen"
       screenOptions={{
-        headerShown: false,
         tabBarActiveTintColor: Colors.secondary,
         // tabBarShowLabel: false,
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          color: Colors.white,
+        },
+        headerStyle: {
+          backgroundColor: Colors.secondary,
+        },
       }}>
       <Tab.Screen
         name="Home"
@@ -56,12 +66,13 @@ export default function BottomNav() {
               )}
             </Center>
           ),
+          tabBarHideOnKeyboard: true,
         }}
       />
 
       <Tab.Screen
-        name="Projects"
-        component={ProjectsScreen}
+        name="ProjectsNav"
+        component={ProjectsNav}
         options={{
           tabBarIcon: ({focused}) => (
             <Center color={focused ? Colors.secondary : Colors.black}>
@@ -76,6 +87,7 @@ export default function BottomNav() {
               )}
             </Center>
           ),
+          title: 'Projects',
         }}
       />
 
@@ -92,11 +104,8 @@ export default function BottomNav() {
             />
           ),
           tabBarLabel: () => null,
-          // tabBarIcon: ({ focused }) => (<Center>{
-          // 	focused
-          // 		? <MaterialIcons name='add-circle' size={24} color={Colors.secondary} />
-          // 		: <MaterialIcons name='add-circle' size={24} color={Colors.black} />
-          // }</Center>)
+          title: 'New Project',
+          headerShown: false,
         }}
       />
 
@@ -126,7 +135,7 @@ export default function BottomNav() {
 
       <Tab.Screen
         name="Settings"
-        component={SettingScreen}
+        component={SettingNav}
         options={{
           tabBarIcon: ({focused}) => (
             <Center>
@@ -141,6 +150,7 @@ export default function BottomNav() {
               )}
             </Center>
           ),
+          headerShown: false,
         }}
       />
     </Tab.Navigator>

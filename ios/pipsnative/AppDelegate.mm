@@ -4,6 +4,8 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 
+#import "RNBootSplash.h"
+
 #import <React/RCTAppSetupUtils.h>
 
 #if RCT_NEW_ARCH_ENABLED
@@ -55,6 +57,10 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
+  
+  // add react-native-splash implementation. see https://blog.jscrambler.com/how-to-add-a-splash-screen-and-app-icon-in-react-native
+  [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
+  
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   return YES;

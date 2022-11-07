@@ -9,6 +9,7 @@ import {
   Pressable,
   ScrollView,
   Select,
+  Spinner,
   Switch,
   Text,
   TextArea,
@@ -21,6 +22,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import MultiSelect from '../components/MultiSelect';
+import ScreenHeader from '../components/ScreenHeader';
 
 const data = [
   {
@@ -106,20 +108,20 @@ const menu = [
   },
   {
     label: 'Level of Approval',
-    screen: '',
+    screen: 'LevelOfApproval',
   },
   {
     label: 'Programming Documents',
-    screen: '',
+    screen: 'ProgrammingDocuments',
   },
   {
     label: 'Philippine Development Plan Chapter',
     screen: '',
   },
-  {
-    label: 'Philippine Development Plan Chapter Outputs',
-    screen: '',
-  },
+  // {
+  //   label: 'Philippine Development Plan Chapter Outputs',
+  //   screen: '',
+  // },
   {
     label: 'TRIP Requirements',
     screen: '',
@@ -192,17 +194,18 @@ export default function NewProjectScreen({navigation}) {
     });
   };
 
+  const [loading, setLoading] = useState(false);
+
+  const onPress = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+  };
+
   return (
     <>
-      <Box bg={Colors.secondary} pt={10} pb={3} mb={3}>
-        <Heading mx={2} color={Colors.white} shadow={2}>
-          New Project
-        </Heading>
-      </Box>
-
-      <MultiSelect items={data} />
-
-      <ScrollView>
+      <ScrollView mt={3}>
         {menu.map(({label, screen}, index) => (
           <ProjectMenu
             key={index}
@@ -211,11 +214,12 @@ export default function NewProjectScreen({navigation}) {
           />
         ))}
 
-        <Center py={5} px={2}>
+        <Center pt={3} pb={10} px={2}>
           <Button
+            onPress={onPress}
             h={12}
             rounded="full"
-            w="full"
+            w="80%"
             bg={Colors.secondary}
             _text={{
               fontSize: 16,
@@ -223,166 +227,9 @@ export default function NewProjectScreen({navigation}) {
             _pressed={{
               bg: Colors.secondary,
             }}>
-            SAVE AS DRAFT
+            {loading ? <Spinner color={Colors.white} /> : 'SAVE AS DRAFT'}
           </Button>
         </Center>
-
-        <SectionTitle title="DA-SPECIFIC INFORMATION" />
-
-        <SectionTitle title="Level of Approval" />
-
-        <Box p={2} bg={Colors.white}>
-          <Text fontSize={10} color="#999999">
-            LEVEL OF APPROVAL
-          </Text>
-
-          <Select
-            fontSize={12}
-            fontWeight="bold"
-            selectedValue="1"
-            variant="underlined"
-            _focus={{
-              borderColor: Colors.secondary,
-            }}
-            dropdownIcon={
-              <MaterialIcons name="keyboard-arrow-down" size={14} />
-            }
-            _selectedItem={{
-              bg: Colors.secondary,
-              color: Colors.white,
-              // startIcon: <MaterialIcons name='check-circle' size={16} color={Colors.white} />,
-            }}
-            mt={1}>
-            <Select.Item label="Nationwide" value="1" />
-            <Select.Item label="Interregional" value="2" />
-            <Select.Item label="Region-Specific" value="3" />
-            <Select.Item label="Abroad" value="4" />
-          </Select>
-        </Box>
-
-        <Box p={2} bg={Colors.white}>
-          <Text fontSize={10} color="#999999">
-            DATE OF APPROVAL
-          </Text>
-
-          <RNDateTimePicker type="date" value={date} />
-        </Box>
-
-        <SectionTitle title="Programming Documents" />
-
-        <Box p={2} bg={Colors.white}>
-          <HStack justifyContent="space-between" alignItems="center">
-            <Text fontSize={10} color="#999999">
-              PUBLIC INVESTMENT PROGRAM
-            </Text>
-            <Switch size="sm" onTrackColor={Colors.secondary} />
-          </HStack>
-        </Box>
-
-        <Box p={2} bg={Colors.white}>
-          <HStack justifyContent="space-between" alignItems="center">
-            <Text fontSize={10} color="#999999">
-              THREE-YEAR ROLLING INFRASTRUCTURE PROGRAM
-            </Text>
-            <Switch size="sm" onTrackColor={Colors.secondary} />
-          </HStack>
-        </Box>
-
-        <Box p={2} bg={Colors.white}>
-          <HStack justifyContent="space-between" alignItems="center">
-            <Text fontSize={10} color="#999999">
-              CORE INVESTMENT PROGRAM/PROJECT
-            </Text>
-            <Switch size="sm" onTrackColor={Colors.secondary} />
-          </HStack>
-        </Box>
-
-        <Box p={2} bg={Colors.white}>
-          <HStack justifyContent="space-between" alignItems="center">
-            <Text fontSize={10} color="#999999">
-              REGIONAL DEVELOPMENT INVESTMENT PROGRAM
-            </Text>
-            <Switch size="sm" onTrackColor={Colors.secondary} />
-          </HStack>
-        </Box>
-
-        <Box p={2} bg={Colors.white}>
-          <HStack justifyContent="space-between" alignItems="center">
-            <Text fontSize={10} color="#999999">
-              R&D PAP
-            </Text>
-            <Switch size="sm" onTrackColor={Colors.secondary} />
-          </HStack>
-        </Box>
-
-        <Box p={2} bg={Colors.white}>
-          <HStack justifyContent="space-between" alignItems="center">
-            <Text fontSize={10} color="#999999">
-              RESPONSIVE TO COVID
-            </Text>
-            <Switch size="sm" onTrackColor={Colors.secondary} />
-          </HStack>
-        </Box>
-
-        <SectionTitle title="Philippine Development Program" />
-
-        <Box p={2} bg={Colors.white}>
-          <Text fontSize={10} color="#999999">
-            MAIN PDP CHAPTER
-          </Text>
-
-          <Select
-            fontSize={12}
-            fontWeight="bold"
-            selectedValue="1"
-            variant="underlined"
-            _focus={{
-              borderColor: Colors.secondary,
-            }}
-            dropdownIcon={
-              <MaterialIcons name="keyboard-arrow-down" size={14} />
-            }
-            _selectedItem={{
-              bg: Colors.secondary,
-              color: Colors.white,
-              // startIcon: <MaterialIcons name='check-circle' size={16} color={Colors.white} />,
-            }}
-            mt={1}>
-            <Select.Item label="Nationwide" value="1" />
-            <Select.Item label="Interregional" value="2" />
-            <Select.Item label="Region-Specific" value="3" />
-            <Select.Item label="Abroad" value="4" />
-          </Select>
-        </Box>
-
-        <Box p={2} bg={Colors.white}>
-          <Text fontSize={10} color="#999999">
-            OTHER PDP CHAPTERS
-          </Text>
-
-          <Select
-            fontSize={12}
-            fontWeight="bold"
-            selectedValue="1"
-            variant="underlined"
-            _focus={{
-              borderColor: Colors.secondary,
-            }}
-            dropdownIcon={
-              <MaterialIcons name="keyboard-arrow-down" size={14} />
-            }
-            _selectedItem={{
-              bg: Colors.secondary,
-              color: Colors.white,
-              // startIcon: <MaterialIcons name='check-circle' size={16} color={Colors.white} />,
-            }}
-            mt={1}>
-            <Select.Item label="Nationwide" value="1" />
-            <Select.Item label="Interregional" value="2" />
-            <Select.Item label="Region-Specific" value="3" />
-            <Select.Item label="Abroad" value="4" />
-          </Select>
-        </Box>
       </ScrollView>
     </>
   );
