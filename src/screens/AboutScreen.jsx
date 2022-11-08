@@ -13,6 +13,7 @@ import {
 import VersionInfo from 'react-native-version-info';
 import {SectionTitle} from './NewProjectScreen';
 import {Colors} from '../constants/colors';
+import DeviceInfo from 'react-native-device-info';
 
 export default function AboutScreen() {
   const [loading, setLoading] = useState(false);
@@ -41,7 +42,7 @@ export default function AboutScreen() {
           />
           <VStack space={1}>
             <Text fontSize={16} fontWeight="bold">
-              PIPS v{VersionInfo.appVersion}
+              PIPS v{DeviceInfo.getReadableVersion()}
             </Text>
             <Text color={Colors.lightBlack}>by Lester Bolotaolo</Text>
           </VStack>

@@ -14,8 +14,11 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Pressable} from 'react-native';
 import ScreenHeader from '../components/ScreenHeader';
+import {useAuth} from '../contexts/auth.context';
 
 export default function SettingScreen({navigation}) {
+  const {currentUser} = useAuth();
+
   return (
     <>
       <Box>
@@ -26,9 +29,12 @@ export default function SettingScreen({navigation}) {
             color={Colors.white}
           />
           <VStack ml={2}>
-            <Heading color={Colors.white}>Juan dela Cruz</Heading>
+            <Heading
+              color={
+                Colors.white
+              }>{`${currentUser.first_name} ${currentUser.last_name}`}</Heading>
             <Heading bold fontSize={15} isTruncated color={Colors.white}>
-              @jdelacruz
+              @{currentUser.username}
             </Heading>
             <Text italic fontSize={10} color={Colors.white}>
               Joined Dec 12 2022

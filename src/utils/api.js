@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://api.pips.da.gov.ph/api',
+  baseURL: 'http://172.17.209.163:8000/api',
   // headers: {
   //   common: {
   //     Accept: 'application/json',

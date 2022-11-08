@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
   Box,
+  Button,
   Center,
   DeleteIcon,
   FlatList,
@@ -724,60 +725,7 @@ const initialData = [
   },
 ];
 
-const Swiper = ({data}) => {
-  console.log('data: ', data);
-
-  const navigation = useNavigation();
-
-  return (
-    <FlatList
-      keyExtractor={(item, index) => index}
-      rightOpenValue={-75}
-      previewRowKey="0"
-      previewOpenValue={-60}
-      previewOpenDelay={1000}
-      disableRightSwipe
-      data={data}
-      renderItem={({item, index, separators}) => (
-        <Pressable onPress={() => navigation.navigate('Project')}>
-          <Box mb={2}>
-            <HStack
-              alignItems="center"
-              justifyContent="space-between"
-              bg={Colors.white}
-              shadow={1}
-              rounded={10}
-              p={2}
-              h={24}
-              overflow="hidden">
-              <Center w="20%" color={Colors.deepGray}>
-                {item.office?.acronym}
-              </Center>
-              <VStack w="70%" px={2}>
-                <Text
-                  isTruncated
-                  color={Colors.black}
-                  semibold
-                  fontSize={14}
-                  noOfLines={2}>
-                  {item.title}
-                </Text>
-                <Text fontSize={10}>
-                  {moment(item.updated_at).format('MM/DD/YY HH:MM')}
-                </Text>
-              </VStack>
-              <Center>
-                <DeleteIcon color={Colors.red} />
-              </Center>
-            </HStack>
-          </Box>
-        </Pressable>
-      )}
-    />
-  );
-};
-
-export default function ProjectsScreen() {
+export default function ProjectsScreen({navigation}) {
   const [loading, setLoading] = useState(false);
 
   const [search, setSearch] = useState('');
@@ -798,6 +746,7 @@ export default function ProjectsScreen() {
   };
 
   const onEndReached = () => {
+    console.log('onEndReached');
     const newProjects = [...projects, ...initialData];
 
     setProjects(newProjects);
@@ -809,8 +758,6 @@ export default function ProjectsScreen() {
     );
 
     setFilteredProjects(updatedFilteredProjects);
-
-    console.log(filteredProjects);
   }, [search]);
 
   return (
@@ -837,21 +784,6 @@ export default function ProjectsScreen() {
           bg={Colors.white}
           onChangeText={val => setSearch(val)}
         />
-        {/* <IconButton
-          size={8}
-          variant="outline"
-          _icon={{
-            as: MaterialCommunityIcons,
-            name: 'sort-alphabetical-ascending-variant',
-            color: Colors.white,
-            size: 6,
-          }}
-          borderColor={Colors.white}
-          _pressed={{
-            bg: Colors.secondary,
-            borderColor: Colors.white,
-          }}
-        /> */}
       </HStack>
 
       {loading ? (
@@ -859,8 +791,41 @@ export default function ProjectsScreen() {
           <Spinner color={Colors.secondary} />
         </Center>
       ) : (
-        <Box px={2} pb={20}>
-          <Swiper
+        <Box px={2}>
+          <FlatList
+            keyExtractor={(item, index) => index}
+            renderItem={({item, index, separators}) => (
+              <Pressable onPress={() => navigation.navigate('Project')}>
+                <Box mb={2}>
+                  <HStack
+                    alignItems="center"
+                    justifyContent="space-between"
+                    bg={Colors.white}
+                    shadow={1}
+                    rounded={10}
+                    p={2}
+                    h={24}
+                    overflow="hidden">
+                    <Center w="20%" color={Colors.deepGray}>
+                      {item.office?.acronym}
+                    </Center>
+                    <VStack w="80%" px={2}>
+                      <Text
+                        isTruncated
+                        color={Colors.black}
+                        semibold
+                        fontSize={14}
+                        noOfLines={2}>
+                        {item.title}
+                      </Text>
+                      <Text fontSize={10}>
+                        {moment(item.updated_at).format('MM/DD/YY HH:MM')}
+                      </Text>
+                    </VStack>
+                  </HStack>
+                </Box>
+              </Pressable>
+            )}
             data={filteredProjects}
             onRefresh={onRefresh}
             refreshing={loading}

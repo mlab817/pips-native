@@ -19,11 +19,15 @@ import {Colors} from '../constants/colors';
 import ForgotPasswordModal from '../components/ForgotPasswordModal';
 import api from '../utils/api';
 import {Keyboard, TouchableWithoutFeedback} from 'react-native';
+import DeviceInfo from 'react-native-device-info';
+import {useAuth} from '../contexts/auth.context';
 
 export default function LoginScreen({navigation}) {
   const [show, setShow] = useState(false);
 
   const [loading, setLoading] = useState(false);
+
+  const {login} = useAuth();
 
   const [credentials, setCredentials] = useState({
     username: 'sys_admin',
@@ -33,9 +37,10 @@ export default function LoginScreen({navigation}) {
   const onSubmit = async () => {
     setLoading(true);
     try {
-      const response = await api.post('/auth/login', credentials);
+      // const response = await api.post('/auth/login', credentials);
+      login();
 
-      console.log(response.data);
+      // console.log(response.data);
       setLoading(false);
       navigation.navigate('Bottom');
     } catch (err) {
@@ -132,16 +137,15 @@ export default function LoginScreen({navigation}) {
             </Button>
 
             <ForgotPasswordModal />
-          </Box>
 
-          <Text
-            position="absolute"
-            bottom={1}
-            right={1}
-            fontSize={10}
-            color={'#999999'}>
-            v1.0.0-official
-          </Text>
+            <Box position="absolute" bottom={2}>
+              <Center>
+                <Text fontSize={10} color={Colors.gray}>
+                  PIPS v{DeviceInfo.getReadableVersion()}
+                </Text>
+              </Center>
+            </Box>
+          </Box>
         </Box>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
