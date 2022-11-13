@@ -38,21 +38,25 @@ export default function SelectModal({route, navigation}) {
     <>
       <Box p={3}>
         <Input
+          size="sm"
           placeholder="Type to search..."
           InputLeftElement={
-            <Icon as={<MaterialIcons name="search" />} size={6} ml={2} />
+            <Icon as={<MaterialIcons name="search" />} size={5} ml={2} />
           }
           _focus={{
-            bg: Colors.white,
+            // bg: Colors.white,
             borderColor: Colors.secondary,
           }}
+          pl={2}
           rounded={10}
           onChangeText={val => setSearch(val)}
+          variant="underlined"
         />
       </Box>
 
       <Box bg={Colors.white}>
         <FlatList
+          p={2}
           data={filteredOptions}
           renderItem={({item, index}) => (
             <Pressable key={index} onPress={() => setSelected(item.value)}>
@@ -62,9 +66,12 @@ export default function SelectModal({route, navigation}) {
                 borderBottomWidth={0.5}>
                 <HStack justifyContent="space-between" alignItems="center">
                   <Text
+                    w="90%"
+                    noOfLines={2}
                     color={
                       selected === item.value ? Colors.secondary : Colors.gray
-                    }>
+                    }
+                    fontSize={10}>
                     {item.label}
                   </Text>
                   <Icon
@@ -72,7 +79,6 @@ export default function SelectModal({route, navigation}) {
                     color={
                       selected === item.value ? Colors.secondary : Colors.gray
                     }
-                    // size={14}
                   />
                 </HStack>
               </Box>

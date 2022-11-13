@@ -23,6 +23,8 @@ import moment from 'moment';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import MultiSelect from '../components/MultiSelect';
 import ScreenHeader from '../components/ScreenHeader';
+import {Strings} from '../constants/strings';
+import {useNavigation} from '@react-navigation/native';
 
 const data = [
   {
@@ -70,9 +72,11 @@ export const InputLabel = ({label}) => (
   </Text>
 );
 
-const ProjectMenu = ({label, onPress}) => {
+const ProjectMenu = ({label, screen}) => {
+  const navigation = useNavigation();
+
   return (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={() => navigation.navigate(screen)}>
       <HStack
         alignItems="center"
         justifyContent="space-between"
@@ -81,7 +85,7 @@ const ProjectMenu = ({label, onPress}) => {
         px={2}
         borderBottomColor={Colors.lightBlack}
         borderBottomWidth={0.5}>
-        <Text>{label}</Text>
+        <Text fontSize={10}>{label}</Text>
 
         <MaterialIcons name="chevron-right" size={16} />
       </HStack>
@@ -116,7 +120,7 @@ const menu = [
   },
   {
     label: 'Philippine Development Plan Chapter',
-    screen: '',
+    screen: 'PdpChapter',
   },
   // {
   //   label: 'Philippine Development Plan Chapter Outputs',
@@ -124,7 +128,7 @@ const menu = [
   // },
   {
     label: 'TRIP Requirements',
-    screen: '',
+    screen: 'TripRequirements',
   },
   {
     label: 'Infrastructure Cost per Funding Source',
@@ -132,7 +136,7 @@ const menu = [
   },
   {
     label: 'Expected Outputs/Deliverables',
-    screen: '',
+    screen: 'ExpectedOutputs',
   },
   {
     label: 'Socioeconomic Agenda',
@@ -152,15 +156,15 @@ const menu = [
   },
   {
     label: 'Employment Generation',
-    screen: '',
+    screen: 'EmploymentGeneration',
   },
   {
     label: 'Funding Source/Mode of Implementation',
-    screen: '',
+    screen: 'FundingInformation',
   },
   {
     label: 'Physical and Financial Status',
-    screen: '',
+    screen: 'PhysicalFinancialStatus',
   },
   {
     label: 'Investment Cost per Region',
@@ -204,33 +208,31 @@ export default function NewProjectScreen({navigation}) {
   };
 
   return (
-    <>
-      <ScrollView mt={3}>
-        {menu.map(({label, screen}, index) => (
-          <ProjectMenu
-            key={index}
-            label={label}
-            onPress={() => navigation.navigate(screen)}
-          />
-        ))}
+    <Box mt={3} flex={1}>
+      <FlatList
+        data={menu}
+        renderItem={({item, index}) => (
+          <ProjectMenu key={index} label={item.label} screen={item.screen} />
+        )}
+        showsVerticalScrollIndicator={false}
+      />
 
-        <Center pt={3} pb={10} px={2}>
-          <Button
-            onPress={onPress}
-            h={12}
-            rounded="full"
-            w="80%"
-            bg={Colors.secondary}
-            _text={{
-              fontSize: 16,
-            }}
-            _pressed={{
-              bg: Colors.secondary,
-            }}>
-            {loading ? <Spinner color={Colors.white} /> : 'SAVE AS DRAFT'}
-          </Button>
-        </Center>
-      </ScrollView>
-    </>
+      <Center pt={3} pb={8} px={2}>
+        <Button
+          onPress={onPress}
+          h={10}
+          rounded="full"
+          w="60%"
+          bg={Colors.secondary}
+          _text={{
+            fontSize: 14,
+          }}
+          _pressed={{
+            bg: Colors.secondary,
+          }}>
+          {loading ? <Spinner color={Colors.white} /> : Strings.saveAsDraft}
+        </Button>
+      </Center>
+    </Box>
   );
 }

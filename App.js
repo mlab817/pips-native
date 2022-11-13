@@ -7,15 +7,8 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import {
-  Header,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  StatusBar,
-  TouchableWithoutFeedback,
-} from 'react-native';
-import {NativeBaseProvider, View} from 'native-base';
+import {Keyboard} from 'react-native';
+import {NativeBaseProvider} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
 
 import LoginScreen from './src/screens/LoginScreen';
@@ -31,8 +24,6 @@ import SpInAppUpdates, {
 } from 'sp-react-native-in-app-updates';
 import {getVersion} from 'react-native-device-info';
 import {AuthProvider} from './src/contexts/auth.context';
-
-console.log('curVersion: ', getVersion());
 
 const Stack = createNativeStackNavigator();
 
@@ -88,7 +79,6 @@ const App = () => {
   return (
     <NavigationContainer onReady={() => RNBootSplash.hide()}>
       <NativeBaseProvider>
-        <StatusBar hidden />
         <AuthProvider>
           <Stack.Navigator initialRouteName="Login">
             <Stack.Screen

@@ -15,9 +15,16 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Pressable} from 'react-native';
 import ScreenHeader from '../components/ScreenHeader';
 import {useAuth} from '../contexts/auth.context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SettingScreen({navigation}) {
   const {currentUser} = useAuth();
+
+  const handleLogout = async () => {
+    await AsyncStorage.clear();
+
+    navigation.navigate('Login');
+  };
 
   return (
     <>
@@ -110,7 +117,7 @@ export default function SettingScreen({navigation}) {
           _text={{
             fontWeight: 'bold',
           }}
-          onPress={() => navigation.navigate('Login')}>
+          onPress={handleLogout}>
           LOGOUT
         </Button>
       </Box>

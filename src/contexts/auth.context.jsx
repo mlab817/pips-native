@@ -1,4 +1,7 @@
 import {createContext, useContext, useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Keychain from 'react-native-keychain';
+import api from '../utils/api';
 
 const AuthContext = createContext({
   isAuthenticated: false,
@@ -12,16 +15,17 @@ export const AuthProvider = ({children}) => {
 
   const [currentUser, setCurrentUser] = useState(null);
 
-  const login = async () => {
+  const login = async payload => {
     try {
+      const response = await api.post('/auth/login', payload);
+
+      const {access_token, user} = response.data;
+
+      await AsyncStorage.setItem('TOKEN', access_token);
+
+      console.log(response);
       setIsAuthenticated(true);
-      setCurrentUser({
-        username: 'pip_user',
-        first_name: 'PIP',
-        last_name: 'User',
-        position: 'PIP User',
-        contact_number: '1234',
-      });
+      setCurrentUser(user);
     } catch (err) {
       console.error(err);
     }
@@ -30,6 +34,19 @@ export const AuthProvider = ({children}) => {
   const updateProfile = async payload => {
     try {
       setCurrentUser(payload);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const savePasswordInKeychain = async payload => {
+    try {
+      const result = await Keychain.setGenericPassword(
+        payload.username,
+        payload.password,
+      );
+
+      console.log('savePasswordInKeychain: ', result);
     } catch (err) {
       console.error(err);
     }

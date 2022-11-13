@@ -1,27 +1,50 @@
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const api = axios.create({
-  baseURL: 'http://172.17.209.163:8000/api',
-  // headers: {
-  //   common: {
-  //     Accept: 'application/json',
-  //     'Content-Type': 'application/json',
-  //   },
-  // },
+  baseURL: 'https://api.pips.da.gov.ph/api',
+  headers: {
+    common: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  },
 });
 
-// api.interceptors.request.use(
-//   function (config) {
-//     return config;
-//   },
-//   err => console.error(err),
-// );
+api.interceptors.request.use(
+  async config => {
+    const token = await AsyncStorage.getItem('TOKEN');
 
-// api.interceptors.response.use(
-//   function (config) {
-//     return config;
-//   },
-//   err => console.error(err),
-// );
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  error => {
+    console.log(error);
+  },
+);
+
+api.interceptors.response.use(
+  response => {
+    return response;
+  },
+  async error => {
+    if (axios.isCancel(error)) {
+      console.log('request cancelled');
+    }
+
+    const originalRequest = error.config;
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      const response = await api.post('/auth/refresh');
+      const {access_token} = response.data;
+      api.config.headers['Authorization'] = 'Bearer ' + access_token;
+      return api(originalRequest);
+    }
+    return Promise.reject(error);
+  },
+);
 
 export default api;

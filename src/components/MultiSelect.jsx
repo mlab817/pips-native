@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
-import {Box, Checkbox, Text, VStack} from 'native-base';
+import React, {useEffect, useState} from 'react';
+import {Box, Checkbox, HStack, Icon, Input, Pressable, Text} from 'native-base';
 import {Colors} from '../constants/colors';
-import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
+import {FlatList} from 'react-native-gesture-handler';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export default function MultiSelect({
   route,
@@ -13,6 +14,25 @@ export default function MultiSelect({
   const {options} = route.params;
 
   const [selectedItems, setSelectedItems] = useState([]);
+
+  const [search, setSearch] = useState('');
+
+  const [filteredOptions, setFilteredOptions] = useState(options);
+
+  useEffect(() => {
+    console.log('search: ', search);
+    if (search) {
+      const newOptions = options.filter(
+        option => option.label.toLowerCase().indexOf(search.toLowerCase()) > -1,
+      );
+
+      console.log(newOptions.length);
+
+      setFilteredOptions(newOptions);
+    } else {
+      setFilteredOptions(options);
+    }
+  }, [search]);
 
   const toggleSelect = item => {
     setSelectedItems(
@@ -55,7 +75,25 @@ export default function MultiSelect({
   };
 
   return (
-    <Box mt={3} bg={Colors.white}>
+    <>
+      <Box p={3}>
+        <Input
+          size="sm"
+          placeholder="Type to search..."
+          InputLeftElement={
+            <Icon as={<MaterialIcons name="search" />} size={5} ml={2} />
+          }
+          _focus={{
+            // bg: Colors.white,
+            borderColor: Colors.secondary,
+          }}
+          pl={2}
+          rounded={10}
+          onChangeText={val => setSearch(val)}
+          variant="underlined"
+        />
+      </Box>
+
       {/** Title */}
       {/* <Box
         w="full"
@@ -87,63 +125,47 @@ export default function MultiSelect({
         </Checkbox>
       </Box> */}
 
-      <VStack px={2} defaultValue={selectedItems} onChange={setSelectedItems}>
-        {options.map((option, index) => (
-          // <Pressable w="100%" key={index} onPress={() => pressItem(option)}>
-          //   <Box py={3} borderBottomColor="#999999" borderBottomWidth={0.3}>
-          //     <HStack
-          //       space={2}
-          //       alignItems="center"
-          //       justifyContent="space-between"
-          //       px={2}>
-          //       <Text
-          //         w="80%"
-          //         color={
-          //           selectedItems.indexOf(option.value) > -1
-          //             ? Colors.secondary
-          //             : Colors.black
-          //         }
-          //         noOfLines={2}
-          //         isTruncated>
-          //         {option.label}
-          //       </Text>
-          //       <CheckCircleIcon
-          //         color={
-          //           selectedItems.indexOf(option.value) > -1
-          //             ? Colors.secondary
-          //             : Colors.lightBlack
-          //         }
-          //       />
-          //     </HStack>
-          //   </Box>
-          // </Pressable>
-
-          <Box
-            key={index}
-            w="full"
-            p={3}
-            borderBottomColor="#999999"
-            borderBottomWidth={0.3}>
-            <Checkbox
-              value={option.value}
-              isChecked={selectedItems.indexOf(option.value) > -1}
-              borderBottomColor={'#999999'}
-              _checked={{
-                borderColor: Colors.secondary,
-                bg: Colors.secondary,
-                _pressed: {
-                  borderColor: Colors.secondary,
-                  bg: Colors.secondary,
-                },
-              }}
-              onPress={() => onPress(option)}>
-              <Text w="90%" noOfLines={2} isTruncated>
-                {option.label}
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        px={2}
+        data={filteredOptions}
+        renderItem={({item, index}) => (
+          <Pressable onPress={() => onPress(item)}>
+            <HStack
+              alignItems="center"
+              justifyContent="space-between"
+              key={index}
+              w="full"
+              p={3}
+              bg={Colors.white}
+              borderBottomColor="#999999"
+              borderBottomWidth={0.3}>
+              <Text
+                w="90%"
+                noOfLines={2}
+                isTruncated
+                fontSize={10}
+                color={
+                  selectedItems.indexOf(item.value) > -1
+                    ? Colors.secondary
+                    : Colors.gray
+                }>
+                {item.label}
               </Text>
-            </Checkbox>
-          </Box>
-        ))}
-      </VStack>
-    </Box>
+
+              <Icon
+                as={<MaterialIcons name="check-circle" />}
+                color={
+                  selectedItems.indexOf(item.value) > -1
+                    ? Colors.secondary
+                    : Colors.gray
+                }
+                // size={14}
+              />
+            </HStack>
+          </Pressable>
+        )}
+      />
+    </>
   );
 }

@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
+  Alert,
   Box,
   Button,
   Center,
@@ -11,6 +12,7 @@ import {
   Pressable,
   Spinner,
   Text,
+  useToast,
   VStack,
 } from 'native-base';
 import {Strings} from '../constants/strings';
@@ -21,8 +23,33 @@ import api from '../utils/api';
 import {Keyboard, TouchableWithoutFeedback} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {useAuth} from '../contexts/auth.context';
+import ReactNativeBiometrics, {BiometryTypes} from 'react-native-biometrics';
+import * as Keychain from 'react-native-keychain';
+
+const rnBiometrics = new ReactNativeBiometrics();
 
 export default function LoginScreen({navigation}) {
+  const [biometricsAvailable, setBiometricsAvailable] = useState(false);
+
+  const [genericPassword, setGenericPassword] = useState(false);
+
+  const checkBiometricsAvailability = async () => {
+    // console.log('checkBiometricsAvailability started');
+    try {
+      const {biometryType} = await rnBiometrics.isSensorAvailable();
+
+      if (biometryType === BiometryTypes.Biometrics) {
+        //do something fingerprint specific
+        // console.log('biometryType: ', biometryType);
+        setBiometricsAvailable(true);
+      } else {
+        // console.log('biometryType: ', biometryType);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const [show, setShow] = useState(false);
 
   const [loading, setLoading] = useState(false);
@@ -30,22 +57,78 @@ export default function LoginScreen({navigation}) {
   const {login} = useAuth();
 
   const [credentials, setCredentials] = useState({
-    username: 'sys_admin',
-    password: 'password',
+    username: '',
+    password: '',
   });
+
+  const toast = useToast();
 
   const onSubmit = async () => {
     setLoading(true);
     try {
       // const response = await api.post('/auth/login', credentials);
-      login();
+      login(credentials);
 
       // console.log(response.data);
+
+      const {service, storage} = await Keychain.setGenericPassword(
+        credentials.username,
+        credentials.password,
+      );
+
       setLoading(false);
+
       navigation.navigate('Bottom');
     } catch (err) {
       setLoading(false);
-      console.log(err);
+      toast.show({
+        message: err.response.data.message,
+      });
+    }
+  };
+
+  // check if there is a saved generic password
+  const checkGenericPasswordAvailability = async () => {
+    try {
+      const payload = await Keychain.getGenericPassword();
+
+      setGenericPassword(!!payload);
+    } catch (err) {
+      setGenericPassword(null);
+    }
+  };
+
+  useEffect(() => {
+    checkBiometricsAvailability();
+    checkGenericPasswordAvailability();
+  }, []);
+
+  const loginWithBiometrics = async () => {
+    if (!genericPassword)
+      return alert('Please login first to enable Fingerprint.');
+
+    try {
+      const {success, error} = await rnBiometrics.simplePrompt({
+        promptMessage: 'Sign in with Fingerprint',
+        cancelButtonText: 'Close',
+      });
+
+      if (success) {
+        const payload = await Keychain.getGenericPassword();
+
+        login({
+          username: payload.username,
+          password: payload.password,
+        });
+
+        navigation.navigate('Bottom');
+      } else {
+        throw new Error('User cancelled');
+      }
+    } catch (err) {
+      toast.show({
+        description: err.message,
+      });
     }
   };
 
@@ -75,12 +158,12 @@ export default function LoginScreen({navigation}) {
               <Input
                 w="70%"
                 type="email"
-                placeholder="email@example.com"
+                placeholder="username"
                 variant="underlined"
                 pl={2}
                 autoCapitalize={false}
                 InputLeftElement={
-                  <Icon as={<MaterialIcons name="email" size={5} />} ml="2" />
+                  <Icon as={<MaterialIcons name="person" size={5} />} ml="2" />
                 }
                 _text={{
                   color: Colors.white,
@@ -135,6 +218,18 @@ export default function LoginScreen({navigation}) {
               loading={loading}>
               {loading ? <Spinner color={Colors.white} /> : 'SIGN IN'}
             </Button>
+
+            {biometricsAvailable && (
+              <Center my={10}>
+                <Pressable onPress={loginWithBiometrics}>
+                  <MaterialIcons
+                    name="fingerprint"
+                    size={40}
+                    color={genericPassword ? Colors.secondary : Colors.gray}
+                  />
+                </Pressable>
+              </Center>
+            )}
 
             <ForgotPasswordModal />
 

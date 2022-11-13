@@ -1,39 +1,42 @@
 import React from 'react';
-import {Box, Select, Text} from 'native-base';
+import {Box, HStack, Pressable, Text} from 'native-base';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {SectionTitle} from '../../screens/NewProjectScreen';
 import {Colors} from '../../constants/colors';
+import {options} from '../../constants/options';
 
-export default function DASpecificInformation() {
+export default function DASpecificInformation({navigation}) {
   return (
     <>
-      <SectionTitle title="DA-Speicific Information" />
+      <SectionTitle title="DA-Specific Information" />
 
       <Box p={2} bg={Colors.white}>
         <Text fontSize={10} color="#999999">
           COMMODITIES
         </Text>
 
-        <Select
-          fontSize={12}
-          fontWeight="bold"
-          selectedValue="1"
-          variant="underlined"
-          _focus={{
-            borderColor: Colors.secondary,
-          }}
-          dropdownIcon={<MaterialIcons name="keyboard-arrow-down" size={14} />}
-          _selectedItem={{
-            bg: Colors.secondary,
-            color: Colors.white,
-            // startIcon: <MaterialIcons name='check-circle' size={16} color={Colors.white} />,
-          }}
-          mt={1}>
-          <Select.Item label="Nationwide" value="1" />
-          <Select.Item label="Interregional" value="2" />
-          <Select.Item label="Region-Specific" value="3" />
-          <Select.Item label="Abroad" value="4" />
-        </Select>
+        <Pressable
+          onPress={() =>
+            navigation.navigate('SelectMultiple', {
+              header: 'Commodities',
+              options: options.commodities,
+              selectedValue: 1,
+            })
+          }>
+          <Box
+            py={2}
+            borderBottomColor={{
+              color: Colors.gray,
+            }}
+            borderBottomWidth={0.3}>
+            <HStack alignItems="center" justifyContent="space-between">
+              <Text fontSize={12} fontWeight="bold">
+                Commodities
+              </Text>
+              <MaterialIcons name="keyboard-arrow-down" size={14} />
+            </HStack>
+          </Box>
+        </Pressable>
       </Box>
 
       <Box p={2} bg={Colors.white}>
@@ -41,26 +44,28 @@ export default function DASpecificInformation() {
           VALUE CHAIN SEGMENTS
         </Text>
 
-        <Select
-          fontSize={12}
-          fontWeight="bold"
-          selectedValue="1"
-          variant="underlined"
-          _focus={{
-            borderColor: Colors.secondary,
-          }}
-          dropdownIcon={<MaterialIcons name="keyboard-arrow-down" size={14} />}
-          _selectedItem={{
-            bg: Colors.secondary,
-            color: Colors.white,
-            // startIcon: <MaterialIcons name='check-circle' size={16} color={Colors.white} />,
-          }}
-          mt={1}>
-          <Select.Item label="Nationwide" value="1" />
-          <Select.Item label="Interregional" value="2" />
-          <Select.Item label="Region-Specific" value="3" />
-          <Select.Item label="Abroad" value="4" />
-        </Select>
+        <Pressable
+          onPress={() =>
+            navigation.navigate('SelectMultiple', {
+              header: 'Value Chain Segments',
+              options: options.vc_segments,
+              selectedValue: 1,
+            })
+          }>
+          <Box
+            py={2}
+            borderBottomColor={{
+              color: Colors.gray,
+            }}
+            borderBottomWidth={0.3}>
+            <HStack alignItems="center" justifyContent="space-between">
+              <Text fontSize={12} fontWeight="bold">
+                Value Chain Segments
+              </Text>
+              <MaterialIcons name="keyboard-arrow-down" size={14} />
+            </HStack>
+          </Box>
+        </Pressable>
       </Box>
 
       <Box p={2} bg={Colors.white}>
@@ -68,26 +73,28 @@ export default function DASpecificInformation() {
           NAFMIP OUTPUTS
         </Text>
 
-        <Select
-          fontSize={12}
-          fontWeight="bold"
-          selectedValue="1"
-          variant="underlined"
-          _focus={{
-            borderColor: Colors.secondary,
-          }}
-          dropdownIcon={<MaterialIcons name="keyboard-arrow-down" size={14} />}
-          _selectedItem={{
-            bg: Colors.secondary,
-            color: Colors.white,
-            // startIcon: <MaterialIcons name='check-circle' size={16} color={Colors.white} />,
-          }}
-          mt={1}>
-          <Select.Item label="Nationwide" value="1" />
-          <Select.Item label="Interregional" value="2" />
-          <Select.Item label="Region-Specific" value="3" />
-          <Select.Item label="Abroad" value="4" />
-        </Select>
+        <Pressable
+          onPress={() =>
+            navigation.navigate('SelectMultiple', {
+              header: 'Value Chain Segments',
+              options: options.nafmip_outputs,
+              selectedValue: 1,
+            })
+          }>
+          <Box
+            py={2}
+            borderBottomColor={{
+              color: Colors.gray,
+            }}
+            borderBottomWidth={0.3}>
+            <HStack alignItems="center" justifyContent="space-between">
+              <Text fontSize={12} fontWeight="bold">
+                NAFMIP Outputs
+              </Text>
+              <MaterialIcons name="keyboard-arrow-down" size={14} />
+            </HStack>
+          </Box>
+        </Pressable>
       </Box>
 
       <Box p={2} bg={Colors.white}>
@@ -95,26 +102,28 @@ export default function DASpecificInformation() {
           PDP STRATEGIES
         </Text>
 
-        <Select
-          fontSize={12}
-          fontWeight="bold"
-          selectedValue="1"
-          variant="underlined"
-          _focus={{
-            borderColor: Colors.secondary,
-          }}
-          dropdownIcon={<MaterialIcons name="keyboard-arrow-down" size={14} />}
-          _selectedItem={{
-            bg: Colors.secondary,
-            color: Colors.white,
-            // startIcon: <MaterialIcons name='check-circle' size={16} color={Colors.white} />,
-          }}
-          mt={1}>
-          <Select.Item label="Nationwide" value="1" />
-          <Select.Item label="Interregional" value="2" />
-          <Select.Item label="Region-Specific" value="3" />
-          <Select.Item label="Abroad" value="4" />
-        </Select>
+        <Pressable
+          onPress={() =>
+            navigation.navigate('SelectMultiple', {
+              header: 'Value Chain Segments',
+              options: options.pdp_strategies,
+              selectedValue: 1,
+            })
+          }>
+          <Box
+            py={2}
+            borderBottomColor={{
+              color: Colors.gray,
+            }}
+            borderBottomWidth={0.3}>
+            <HStack alignItems="center" justifyContent="space-between">
+              <Text fontSize={12} fontWeight="bold">
+                PDP Strategies
+              </Text>
+              <MaterialIcons name="keyboard-arrow-down" size={14} />
+            </HStack>
+          </Box>
+        </Pressable>
       </Box>
     </>
   );

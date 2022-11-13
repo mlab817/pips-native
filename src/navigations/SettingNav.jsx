@@ -14,7 +14,7 @@ export default function SettingNav() {
         name="Setting"
         component={SettingScreen}
         options={{
-          headerShown: true,
+          headerShown: false,
           headerTitle: 'Settings',
           headerTitleAlign: 'center',
           headerTitleStyle: {

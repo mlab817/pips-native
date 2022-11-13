@@ -74,6 +74,7 @@ export default function BottomNav() {
         name="ProjectsNav"
         component={ProjectsNav}
         options={{
+          headerShown: false,
           tabBarIcon: ({focused}) => (
             <Center color={focused ? Colors.secondary : Colors.black}>
               {focused ? (
@@ -91,7 +92,7 @@ export default function BottomNav() {
         }}
       />
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="NewProjectNav"
         component={ProjectNav}
         options={{
@@ -107,7 +108,7 @@ export default function BottomNav() {
           title: 'New Project',
           headerShown: false,
         }}
-      />
+      /> */}
 
       <Tab.Screen
         name="Notifications"

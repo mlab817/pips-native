@@ -10,6 +10,12 @@ import LevelOfApproval from '../components/NewProject/LevelOfApproval';
 import SelectModal from '../components/SelectModal';
 import {Colors} from '../constants/colors';
 import MultiSelect from '../components/MultiSelect';
+import PdpChapter from '../components/NewProject/PdpChapter';
+import TripRequirements from '../components/NewProject/TripRequirements';
+import ExpectedOutputs from '../components/NewProject/ExpectedOutputs';
+import EmploymentGeneration from '../components/NewProject/EmploymentGeneration';
+import PhysicalFinancialStatus from '../components/NewProject/PhysicalFinancialStatus';
+import FundingInformation from '../components/NewProject/FundingInformation';
 
 const Stack = createStackNavigator();
 
@@ -77,6 +83,48 @@ export default function ProjectNav() {
           component={LevelOfApproval}
           options={{
             title: 'Level of Approval',
+          }}
+        />
+        <Stack.Screen
+          name="PdpChapter"
+          component={PdpChapter}
+          options={{
+            title: 'PDP Chapter/s',
+          }}
+        />
+        <Stack.Screen
+          name="TripRequirements"
+          component={TripRequirements}
+          options={{
+            title: 'Trip Requirements',
+          }}
+        />
+        <Stack.Screen
+          name="ExpectedOutputs"
+          component={ExpectedOutputs}
+          options={{
+            title: 'Expected Outputs & Deliverables',
+          }}
+        />
+        <Stack.Screen
+          name="EmploymentGeneration"
+          component={EmploymentGeneration}
+          options={{
+            title: 'Employment Generation',
+          }}
+        />
+        <Stack.Screen
+          name="FundingInformation"
+          component={FundingInformation}
+          options={{
+            title: 'Funding Source & Mode of Implementation',
+          }}
+        />
+        <Stack.Screen
+          name="PhysicalFinancialStatus"
+          component={PhysicalFinancialStatus}
+          options={{
+            title: 'Physical & Financial Status',
           }}
         />
       </Stack.Group>

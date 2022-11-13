@@ -1,11 +1,11 @@
 import React from 'react';
-import {Box, Select, Text} from 'native-base';
+import {Box, HStack, Select, Pressable, Text} from 'native-base';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {SectionTitle} from '../../screens/NewProjectScreen';
 import {Colors} from '../../constants/colors';
 import {options} from '../../constants/options';
 
-export default function SpatialCoverage() {
+export default function SpatialCoverage({navigation}) {
   return (
     <>
       <SectionTitle title="Spatial Coverage" />
@@ -15,26 +15,23 @@ export default function SpatialCoverage() {
           SPATIAL COVERAGE
         </Text>
 
-        <Select
-          fontSize={12}
-          fontWeight="bold"
-          selectedValue="1"
-          variant="underlined"
-          _focus={{
-            borderColor: Colors.secondary,
-          }}
-          dropdownIcon={<MaterialIcons name="keyboard-arrow-down" size={14} />}
-          _selectedItem={{
-            bg: Colors.secondary,
-            color: Colors.white,
-            // startIcon: <MaterialIcons name='check-circle' size={16} color={Colors.white} />,
-          }}
-          mt={1}
-          placeholder={options.spatial_coverages[0].label}>
-          {options.spatial_coverages.map((item, index) => (
-            <Select.Item label={item.label} key={index} value={item.value} />
-          ))}
-        </Select>
+        <Pressable
+          onPress={() =>
+            navigation.navigate('Select', {
+              header: 'Implementing Units',
+              options: options.spatial_coverages,
+              selectedValue: 1,
+            })
+          }>
+          <Box py={2} borderBottomColor={Colors.gray} borderBottomWidth={0.3}>
+            <HStack alignItems="center" justifyContent="space-between">
+              <Text fontSize={12} fontWeight="bold">
+                Spatial Coverage
+              </Text>
+              <MaterialIcons name="keyboard-arrow-down" size={14} />
+            </HStack>
+          </Box>
+        </Pressable>
       </Box>
 
       <Box p={2} bg={Colors.white}>
@@ -42,26 +39,23 @@ export default function SpatialCoverage() {
           LOCATIONS
         </Text>
 
-        <Select
-          fontSize={12}
-          fontWeight="bold"
-          selectedValue="1"
-          variant="underlined"
-          _focus={{
-            borderColor: Colors.secondary,
-          }}
-          dropdownIcon={<MaterialIcons name="keyboard-arrow-down" size={14} />}
-          _selectedItem={{
-            bg: Colors.secondary,
-            color: Colors.white,
-            // startIcon: <MaterialIcons name='check-circle' size={16} color={Colors.white} />,
-          }}
-          mt={1}>
-          <Select.Item label="Nationwide" value="1" />
-          <Select.Item label="Interregional" value="2" />
-          <Select.Item label="Region-Specific" value="3" />
-          <Select.Item label="Abroad" value="4" />
-        </Select>
+        <Pressable
+          onPress={() =>
+            navigation.navigate('SelectMultiple', {
+              header: 'Implementing Units',
+              options: options.locations,
+              selectedValue: 1,
+            })
+          }>
+          <Box py={2} borderBottomColor={Colors.gray} borderBottomWidth={0.3}>
+            <HStack alignItems="center" justifyContent="space-between">
+              <Text fontSize={12} fontWeight="bold">
+                Regions/Provinces
+              </Text>
+              <MaterialIcons name="keyboard-arrow-down" size={14} />
+            </HStack>
+          </Box>
+        </Pressable>
       </Box>
     </>
   );
