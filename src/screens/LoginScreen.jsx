@@ -25,6 +25,8 @@ import DeviceInfo from 'react-native-device-info';
 import {useAuth} from '../contexts/auth.context';
 import ReactNativeBiometrics, {BiometryTypes} from 'react-native-biometrics';
 import * as Keychain from 'react-native-keychain';
+import jwtDecode from 'jwt-decode';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const rnBiometrics = new ReactNativeBiometrics();
 
@@ -40,7 +42,6 @@ export default function LoginScreen({navigation}) {
 
       if (biometryType === BiometryTypes.Biometrics) {
         //do something fingerprint specific
-        // console.log('biometryType: ', biometryType);
         setBiometricsAvailable(true);
       } else {
         // console.log('biometryType: ', biometryType);
@@ -54,7 +55,7 @@ export default function LoginScreen({navigation}) {
 
   const [loading, setLoading] = useState(false);
 
-  const {login} = useAuth();
+  const {isAuthenticated, login} = useAuth();
 
   const [credentials, setCredentials] = useState({
     username: '',
@@ -64,27 +65,31 @@ export default function LoginScreen({navigation}) {
   const toast = useToast();
 
   const onSubmit = async () => {
-    setLoading(true);
-    try {
-      // const response = await api.post('/auth/login', credentials);
-      login(credentials);
+    if (!credentials.username || !credentials.password) return;
 
-      // console.log(response.data);
+    login(credentials);
 
-      const {service, storage} = await Keychain.setGenericPassword(
-        credentials.username,
-        credentials.password,
-      );
+    // setLoading(true);
+    // try {
+    //   const response = await api.post('/auth/login', credentials);
 
-      setLoading(false);
+    //   console.log(jwtDecode(response.data.access_token));
 
-      navigation.navigate('Bottom');
-    } catch (err) {
-      setLoading(false);
-      toast.show({
-        message: err.response.data.message,
-      });
-    }
+    //   await AsyncStorage.setItem('TOKEN', response.data.access_token);
+
+    //   setIsAuthenticated(true);
+
+    //   setCurrentUser(response.data.user);
+
+    //   setLoading(false);
+    // } catch (err) {
+    //   setLoading(false);
+    //   console.log(err);
+
+    //   toast.show({
+    //     message: err,
+    //   });
+    // }
   };
 
   // check if there is a saved generic password
@@ -131,6 +136,10 @@ export default function LoginScreen({navigation}) {
       });
     }
   };
+
+  const showForgotPassword = () => navigation.navigate('ForgotPassword');
+
+  const toggleShowPassword = () => setShow(!show);
 
   return (
     <KeyboardAvoidingView flex={1} behavior="padding">
@@ -193,7 +202,7 @@ export default function LoginScreen({navigation}) {
                         size={5}
                       />
                     }
-                    onPress={() => setShow(!show)}
+                    onPress={toggleShowPassword}
                   />
                 }
                 value={credentials.password}
@@ -206,6 +215,9 @@ export default function LoginScreen({navigation}) {
                 autoCapitalize={false}
               />
             </VStack>
+
+            <Text>{isAuthenticated}</Text>
+
             <Button
               w="70%"
               bg={Colors.secondary}
@@ -231,7 +243,9 @@ export default function LoginScreen({navigation}) {
               </Center>
             )}
 
-            <ForgotPasswordModal />
+            <Pressable mt={10} onPress={showForgotPassword}>
+              <Text color={Colors.lightBlack}>Forgot Password?</Text>
+            </Pressable>
 
             <Box position="absolute" bottom={2}>
               <Center>

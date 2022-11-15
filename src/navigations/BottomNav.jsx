@@ -8,8 +8,7 @@ import {Colors} from '../constants/colors';
 import {Center, Pressable, Text} from 'native-base';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ReportScreen from '../screens/ReportScreen';
-import NewProjectScreen from '../screens/NewProjectScreen';
-import ProjectNav from './ProjectNav';
+
 import SettingNav from './SettingNav';
 import ProjectsNav from './ProjectsNav';
 import {useIsFocused} from '@react-navigation/native';
@@ -17,7 +16,7 @@ import {useIsFocused} from '@react-navigation/native';
 const Tab = createBottomTabNavigator();
 
 const CustomTab = props => {
-  console.log('CustomTab props', props);
+  
   const isFocused = useIsFocused();
 
   return (
@@ -41,7 +40,7 @@ export default function BottomNav() {
 
   return (
     <Tab.Navigator
-      initialRouteName="NewProjectScreen"
+      initialRouteName="Home"
       screenOptions={{
         tabBarActiveTintColor: Colors.secondary,
         // tabBarShowLabel: false,
@@ -91,24 +90,6 @@ export default function BottomNav() {
           title: 'Projects',
         }}
       />
-
-      {/* <Tab.Screen
-        name="NewProjectNav"
-        component={ProjectNav}
-        options={{
-          tabBarButton: props => <CustomTab {...props} />,
-          tabBarIcon: ({focused}) => (
-            <MaterialIcons
-              name="add-circle"
-              size={30}
-              color={focused ? Colors.secondary : Colors.black}
-            />
-          ),
-          tabBarLabel: () => null,
-          title: 'New Project',
-          headerShown: false,
-        }}
-      /> */}
 
       <Tab.Screen
         name="Notifications"

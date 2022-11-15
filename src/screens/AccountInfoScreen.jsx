@@ -1,6 +1,5 @@
 import {Box, Text, Input, Button, Spinner} from 'native-base';
 import React, {useState} from 'react';
-import {SectionTitle} from './NewProjectScreen';
 import {Colors} from '../constants/colors';
 import {useAuth} from '../contexts/auth.context';
 
@@ -17,13 +16,13 @@ export default function AccountInfoScreen() {
     updateProfile(accountInfo);
 
     setLoading(true);
-    console.log('onPress');
+
     setTimeout(() => setLoading(false), 1500);
   };
 
   return (
     <Box flex={1}>
-      <SectionTitle title="Account Information" />
+      {/* <SectionTitle title="Account Information" /> */}
 
       <Box p={2} bg={Colors.white}>
         <Text fontSize={10} color="#999999">
@@ -45,7 +44,7 @@ export default function AccountInfoScreen() {
               first_name: val,
             }))
           }
-          value={accountInfo.first_name}
+          value={accountInfo?.first_name}
         />
       </Box>
 
@@ -69,7 +68,7 @@ export default function AccountInfoScreen() {
               last_name: val,
             }))
           }
-          value={accountInfo.last_name}
+          value={accountInfo?.last_name}
         />
       </Box>
 
@@ -93,7 +92,7 @@ export default function AccountInfoScreen() {
               position: val,
             }))
           }
-          value={accountInfo.position}
+          value={accountInfo?.position}
         />
       </Box>
 
@@ -117,7 +116,7 @@ export default function AccountInfoScreen() {
               contact_number: val,
             }))
           }
-          value={accountInfo.contact_number}
+          value={accountInfo?.contact_number}
         />
       </Box>
 

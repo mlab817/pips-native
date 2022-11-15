@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Center,
+  FlatList,
   Flex,
   Heading,
   HStack,
@@ -13,29 +14,14 @@ import {
   Text,
   VStack,
 } from 'native-base';
-import {FlatList} from 'react-native';
 import {Colors} from '../constants/colors';
 import moment from 'moment';
-import ScreenHeader from '../components/ScreenHeader';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Animated, {
-  Layout,
-  LightSpeedInLeft,
-  LightSpeedOutRight,
-} from 'react-native-reanimated';
 import api from '../utils/api';
-
-const AnimatedHStack = Animated.createAnimatedComponent(HStack);
-const AnimatedBox = Animated.createAnimatedComponent(Box);
-const AnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
 
 const Notification = ({item, onRemove}) => {
   return (
-    <AnimatedBox
-      space={2}
-      layout={Layout.springify()}
-      entering={LightSpeedInLeft}
-      exiting={LightSpeedOutRight}>
+    <Box space={2}>
       <HStack space={3} py={3} px={3}>
         <Center borderRadius={50} bg={Colors.secondary} h={10} w={10}>
           <Text fontSize={8} color={Colors.white}>
@@ -62,7 +48,7 @@ const Notification = ({item, onRemove}) => {
           />
         </Center>
       </HStack>
-    </AnimatedBox>
+    </Box>
   );
 };
 
@@ -95,41 +81,36 @@ export default function NotificationScreen() {
     loadNotifications();
   }, []);
 
+  const renderItem = ({item}) => (
+    <Notification item={item} onRemove={() => deleteNotification(item.id)} />
+  );
+
   return (
     <Box flex={1}>
-      {!notifications.length ? (
-        <Center flex={1}>
-          <Image
-            rounded={10}
-            source={require('../assets/empty.png')}
-            size={100}
-            alt="empty"
-          />
-          <Text mt={3} fontWeight="bold">
-            Nothing here
-          </Text>
-          <Button mt={3} onPress={loadNotifications}>
-            Refresh
-          </Button>
-        </Center>
-      ) : (
-        <Box bg={Colors.white} mt={3}>
-          <AnimatedFlatlist
-            // itemLayoutAnimation={Layout.springify()}
-            // exiting={LightSpeedOutRight}
-            // entering={LightSpeedInLeft}
-            showsVerticalScrollIndicator={false}
-            data={notifications}
-            renderItem={({item}) => (
-              <Notification
-                item={item}
-                onRemove={() => deleteNotification(item.id)}
+      <Box bg={Colors.white} mt={3}>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={notifications}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          ListEmptyComponent={
+            <Center flex={1}>
+              <Image
+                rounded={10}
+                source={require('../assets/empty.png')}
+                size={100}
+                alt="empty"
               />
-            )}
-            keyExtractor={item => item.id}
-          />
-        </Box>
-      )}
+              <Text mt={3} fontWeight="bold">
+                Nothing here
+              </Text>
+              <Button mt={3} onPress={loadNotifications}>
+                Refresh
+              </Button>
+            </Center>
+          }
+        />
+      </Box>
     </Box>
   );
 }

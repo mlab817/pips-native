@@ -15,8 +15,11 @@ export default function HomeScreen() {
   const [pipsStatuses, setPipsStatuses] = useState([]);
 
   const loadDashboardData = async () => {
+    setPipsStatuses([]);
     try {
       const response = await api.get('/dashboard');
+
+      console.log('dashboard response: ', response);
 
       const {endorsed, pips_statuses, total, validated} = response.data;
 
@@ -50,7 +53,7 @@ export default function HomeScreen() {
   return (
     <Box flex={1}>
       <FlatList
-        keyExtractor={(item, index) => index}
+        keyExtractor={item => JSON.stringify(item)}
         mt={3}
         px={2}
         data={pipsStatuses}

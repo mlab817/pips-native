@@ -1,5 +1,6 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Toast} from 'native-base';
 
 const api = axios.create({
   baseURL: 'https://api.pips.da.gov.ph/api',
@@ -22,7 +23,7 @@ api.interceptors.request.use(
     return config;
   },
   error => {
-    console.log(error);
+    Toast.show(JSON.stringify(error));
   },
 );
 
@@ -32,7 +33,7 @@ api.interceptors.response.use(
   },
   async error => {
     if (axios.isCancel(error)) {
-      console.log('request cancelled');
+      Toast.show('request cancelled');
     }
 
     const originalRequest = error.config;

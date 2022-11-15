@@ -18,12 +18,14 @@ import {useAuth} from '../contexts/auth.context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SettingScreen({navigation}) {
-  const {currentUser} = useAuth();
+  const {currentUser, setIsAuthenticated} = useAuth();
 
   const handleLogout = async () => {
-    await AsyncStorage.clear();
+    // await AsyncStorage.clear();
 
-    navigation.navigate('Login');
+    // navigation.navigate('Login');
+    setIsAuthenticated(false);
+    console.log('button is pressed');
   };
 
   return (
@@ -39,9 +41,9 @@ export default function SettingScreen({navigation}) {
             <Heading
               color={
                 Colors.white
-              }>{`${currentUser.first_name} ${currentUser.last_name}`}</Heading>
+              }>{`${currentUser?.first_name} ${currentUser?.last_name}`}</Heading>
             <Heading bold fontSize={15} isTruncated color={Colors.white}>
-              @{currentUser.username}
+              @{currentUser?.username}
             </Heading>
             <Text italic fontSize={10} color={Colors.white}>
               Joined Dec 12 2022
@@ -109,7 +111,8 @@ export default function SettingScreen({navigation}) {
 
       <Box mt={2} alignItems="center" py={3} px={2}>
         <Button
-          w="full"
+          w="70%"
+          rounded="full"
           bg={Colors.secondary}
           _pressed={{
             bg: Colors.secondary,

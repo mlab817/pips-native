@@ -5,6 +5,7 @@ import {
   Box,
   Button,
   Center,
+  Divider,
   FlatList,
   HStack,
   Icon,
@@ -43,56 +44,6 @@ const ListEmptyComponent = ({onPress}) => {
     </Center>
   );
 };
-
-const renderItem = ({item, index, separators}) => (
-  <Pressable onPress={() => alert(JSON.stringify(item))}>
-    <Box mb={2} shadow={2}>
-      <HStack
-        alignItems="flex-start"
-        justifyContent="space-between"
-        bg={Colors.white}
-        shadow={1}
-        rounded={10}
-        p={2}
-        h={24}
-        overflow="hidden">
-        <VStack w="70%">
-          <Text
-            isTruncated
-            color={Colors.black}
-            fontWeight="semibold"
-            fontSize={12}
-            noOfLines={2}>
-            {item.title}
-          </Text>
-          <Text fontSize={11}>{item.office?.acronym}</Text>
-        </VStack>
-        <VStack
-          w="30%"
-          h="full"
-          justifyContent="space-between"
-          alignItems="flex-end">
-          <Text isTruncated>PhP {item.total_cost?.toLocaleString()}</Text>
-
-          <Text fontSize={10}>
-            {moment(item.updated_at).format('MM/DD/YY HH:MM')}
-          </Text>
-        </VStack>
-      </HStack>
-      <Badge
-        position="absolute"
-        bottom={2}
-        left={2}
-        alignSelf="flex-start"
-        variant="outline"
-        _text={{
-          fontSize: 10,
-        }}>
-        {item.pips_status?.name}
-      </Badge>
-    </Box>
-  </Pressable>
-);
 
 export default function ProjectsScreen() {
   const [loading, setLoading] = useState(false);
@@ -154,11 +105,80 @@ export default function ProjectsScreen() {
     }
   }, [search, projects]);
 
+  const renderItem = ({item, index, separators}) => (
+    <Pressable onPress={() => alert(JSON.stringify(item))}>
+      <HStack
+        alignItems="flex-start"
+        justifyContent="space-between"
+        bg={Colors.white}
+        p={2}
+        h={24}
+        overflow="hidden">
+        <VStack w="70%">
+          <Text
+            isTruncated
+            color={Colors.black}
+            fontWeight="semibold"
+            fontSize={12}
+            noOfLines={2}>
+            {item.title}
+          </Text>
+          <Text fontSize={11}>{item.office?.acronym}</Text>
+        </VStack>
+        <VStack
+          w="30%"
+          h="full"
+          justifyContent="space-between"
+          alignItems="flex-end">
+          <Text isTruncated>PhP {item.total_cost?.toLocaleString()}</Text>
+
+          <Text fontSize={10}>
+            {moment(item.updated_at).format('MM/DD/YY HH:MM')}
+          </Text>
+        </VStack>
+      </HStack>
+      <Badge
+        position="absolute"
+        bottom={2}
+        left={2}
+        alignSelf="flex-start"
+        variant="outline"
+        _text={{
+          fontSize: 10,
+        }}>
+        {item.pips_status?.name}
+      </Badge>
+    </Pressable>
+  );
+
+  const ListFooterComponent = () => (
+    <Pressable onPress={nextPage}>
+      <Center>
+        <Text>
+          {loading ? <Spinner color={Colors.secondary} /> : 'Load More...'}
+        </Text>
+      </Center>
+    </Pressable>
+  );
+
+  const ItemSeparatorComponent = () => (
+    <Divider
+      color={Colors.secondary}
+      _light={{
+        bg: 'muted.500',
+      }}
+      _dark={{
+        bg: 'muted.50',
+      }}
+      width={0.3}
+    />
+  );
+
   return (
     <Box flex={1}>
       <HStack
+        p={2}
         space={2}
-        m={2}
         alignItems="center"
         justifyContent="space-between">
         <Input
@@ -180,9 +200,8 @@ export default function ProjectsScreen() {
         />
       </HStack>
 
-      <Box px={2} pb={60}>
+      <Box pb={60}>
         <FlatList
-          entering={LightSpeedInLeft}
           keyExtractor={item => item.key}
           renderItem={renderItem}
           data={filteredProjects}
@@ -191,20 +210,9 @@ export default function ProjectsScreen() {
           // onEndReached={onEndReached}
           // onEndReachedThreshold={10}
           extraData={hasChanged}
-          ListFooterComponent={
-            <Pressable onPress={nextPage}>
-              <Center>
-                <Text>
-                  {loading ? (
-                    <Spinner color={Colors.secondary} />
-                  ) : (
-                    'Load More...'
-                  )}
-                </Text>
-              </Center>
-            </Pressable>
-          }
+          ListFooterComponent={ListFooterComponent}
           ListEmptyComponent={<ListEmptyComponent onPress={loadProjects} />}
+          ItemSeparatorComponent={ItemSeparatorComponent}
         />
       </Box>
     </Box>

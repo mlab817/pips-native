@@ -33,7 +33,7 @@ export default function ChangePasswordScreen() {
 
   return (
     <Box flex={1}>
-      <SectionTitle title="Change Password" />
+      {/* <SectionTitle title="Change Password" /> */}
 
       <Box p={2} bg={Colors.white}>
         <Text fontSize={10} color="#999999">
