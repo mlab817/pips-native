@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {
-  Alert,
   Box,
   Button,
   Center,
@@ -18,99 +17,24 @@ import {
 import {Strings} from '../constants/strings';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Colors} from '../constants/colors';
-import ForgotPasswordModal from '../components/ForgotPasswordModal';
-import api from '../utils/api';
 import {Keyboard, TouchableWithoutFeedback} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {useAuth} from '../contexts/auth.context';
 import ReactNativeBiometrics, {BiometryTypes} from 'react-native-biometrics';
 import * as Keychain from 'react-native-keychain';
-import jwtDecode from 'jwt-decode';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const icon = require('../assets/icon.png');
 
 const rnBiometrics = new ReactNativeBiometrics();
 
-export default function LoginScreen({navigation}) {
-  const [biometricsAvailable, setBiometricsAvailable] = useState(false);
-
-  const [genericPassword, setGenericPassword] = useState(false);
-
-  const checkBiometricsAvailability = async () => {
-    // console.log('checkBiometricsAvailability started');
-    try {
-      const {biometryType} = await rnBiometrics.isSensorAvailable();
-
-      if (biometryType === BiometryTypes.Biometrics) {
-        //do something fingerprint specific
-        setBiometricsAvailable(true);
-      } else {
-        // console.log('biometryType: ', biometryType);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const [show, setShow] = useState(false);
-
-  const [loading, setLoading] = useState(false);
-
-  const {isAuthenticated, login} = useAuth();
-
-  const [credentials, setCredentials] = useState({
-    username: '',
-    password: '',
-  });
+const BiometricsButton = ({genericPassword}) => {
+  const {login} = useAuth();
 
   const toast = useToast();
 
-  const onSubmit = async () => {
-    if (!credentials.username || !credentials.password) return;
-
-    login(credentials);
-
-    // setLoading(true);
-    // try {
-    //   const response = await api.post('/auth/login', credentials);
-
-    //   console.log(jwtDecode(response.data.access_token));
-
-    //   await AsyncStorage.setItem('TOKEN', response.data.access_token);
-
-    //   setIsAuthenticated(true);
-
-    //   setCurrentUser(response.data.user);
-
-    //   setLoading(false);
-    // } catch (err) {
-    //   setLoading(false);
-    //   console.log(err);
-
-    //   toast.show({
-    //     message: err,
-    //   });
-    // }
-  };
-
-  // check if there is a saved generic password
-  const checkGenericPasswordAvailability = async () => {
-    try {
-      const payload = await Keychain.getGenericPassword();
-
-      setGenericPassword(!!payload);
-    } catch (err) {
-      setGenericPassword(null);
-    }
-  };
-
-  useEffect(() => {
-    checkBiometricsAvailability();
-    checkGenericPasswordAvailability();
-  }, []);
-
   const loginWithBiometrics = async () => {
     if (!genericPassword)
-      return alert('Please login first to enable Fingerprint.');
+      return alert('Login first to enable fingerprint login.');
 
     try {
       const {success, error} = await rnBiometrics.simplePrompt({
@@ -137,9 +61,80 @@ export default function LoginScreen({navigation}) {
     }
   };
 
+  return (
+    <Center my={10}>
+      <Pressable onPress={loginWithBiometrics}>
+        <MaterialIcons
+          name="fingerprint"
+          size={40}
+          color={genericPassword ? Colors.secondary : Colors.gray}
+        />
+      </Pressable>
+    </Center>
+  );
+};
+
+export default function LoginScreen({navigation}) {
+  const [biometricsAvailable, setBiometricsAvailable] = useState(false);
+
+  const [genericPassword, setGenericPassword] = useState(false);
+
+  const checkBiometricsAvailability = async () => {
+    // console.log('checkBiometricsAvailability started');
+    try {
+      const {biometryType} = await rnBiometrics.isSensorAvailable();
+
+      if (biometryType === BiometryTypes.Biometrics) {
+        //do something fingerprint specific
+        setBiometricsAvailable(true);
+      } else {
+        // console.log('biometryType: ', biometryType);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const [show, setShow] = useState(false);
+
+  const {isAuthenticated, login} = useAuth();
+
+  const [credentials, setCredentials] = useState({
+    username: '',
+    password: '',
+  });
+
+  const onSubmit = async () => {
+    if (!credentials.username || !credentials.password) return;
+
+    login(credentials);
+  };
+
+  // check if there is a saved generic password
+  const checkGenericPasswordAvailability = async () => {
+    try {
+      const payload = await Keychain.getGenericPassword();
+
+      setGenericPassword(!!payload);
+    } catch (err) {
+      setGenericPassword(null);
+    }
+  };
+
+  useEffect(() => {
+    checkBiometricsAvailability();
+    checkGenericPasswordAvailability();
+  }, []);
+
   const showForgotPassword = () => navigation.navigate('ForgotPassword');
 
   const toggleShowPassword = () => setShow(!show);
+
+  const onChangeText = name => val =>
+    setCredentials(prev => ({
+      ...prev,
+      [name]: val,
+    }));
 
   return (
     <KeyboardAvoidingView flex={1} behavior="padding">
@@ -152,7 +147,7 @@ export default function LoginScreen({navigation}) {
             justifyContent="center"
             alignItems="center">
             <Image
-              source={require('../assets/icon.png')}
+              source={icon}
               alt="icon"
               w="128"
               h="128"
@@ -177,13 +172,8 @@ export default function LoginScreen({navigation}) {
                 _text={{
                   color: Colors.white,
                 }}
-                value={credentials.username}
-                onChangeText={val =>
-                  setCredentials(prevCreds => ({
-                    ...prevCreds,
-                    username: val,
-                  }))
-                }
+                // value={credentials.username}
+                onChangeText={onChangeText('username')}
               />
               <Input
                 w="70%"
@@ -205,13 +195,8 @@ export default function LoginScreen({navigation}) {
                     onPress={toggleShowPassword}
                   />
                 }
-                value={credentials.password}
-                onChangeText={val =>
-                  setCredentials(prevCreds => ({
-                    ...prevCreds,
-                    password: val,
-                  }))
-                }
+                // value={credentials.password}
+                onChangeText={onChangeText('password')}
                 autoCapitalize={false}
               />
             </VStack>
@@ -226,21 +211,12 @@ export default function LoginScreen({navigation}) {
               _pressed={{
                 bg: Colors.secondary,
               }}
-              onPress={onSubmit}
-              loading={loading}>
-              {loading ? <Spinner color={Colors.white} /> : 'SIGN IN'}
+              onPress={onSubmit}>
+              SIGN IN
             </Button>
 
             {biometricsAvailable && (
-              <Center my={10}>
-                <Pressable onPress={loginWithBiometrics}>
-                  <MaterialIcons
-                    name="fingerprint"
-                    size={40}
-                    color={genericPassword ? Colors.secondary : Colors.gray}
-                  />
-                </Pressable>
-              </Center>
+              <BiometricsButton genericPassword={genericPassword} />
             )}
 
             <Pressable mt={10} onPress={showForgotPassword}>
