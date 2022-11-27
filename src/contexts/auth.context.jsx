@@ -1,83 +1,79 @@
-import {createContext, useContext, useEffect, useState} from 'react';
+import React, {createContext, useContext, useState, useEffect} from 'react';
+import {Toast} from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Keychain from 'react-native-keychain';
-import api from '../utils/api';
+import api from "../utils/api";
 
 const AuthContext = createContext({
   isAuthenticated: false,
-  currentUser: null,
-  setCurrentUser: () => {},
-  login: () => {},
-  updateProfile: () => {},
-  setIsAuthenticated: () => {},
+  isLoading: false,
 });
 
 export const AuthProvider = ({children}) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
+  const [currentUser, setCurrentUser] = useState(null)
 
-  const [currentUser, setCurrentUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const validateToken = async (token) => {
+    console.log('token: ', token)
+    try {
+      console.log('validating token')
+      const response = await api.get('/auth/me')
+      
+      console.log('me response: ', response)
+      
+      setCurrentUser(response.data.user)
+      
+      return true
+    } catch (err) {
+      // remove token from local storage
+      await AsyncStorage.clear()
+      
+      // setIsAuthenticated to false
+      return false
+    }
+  }
+
+  const getTokenFromAsyncStorage = async () => {
+    setIsLoading(true);
+    try {
+      const token = await AsyncStorage.getItem('TOKEN');
+      
+      const success = await validateToken(token)
+      
+      console.log('success: ', success)
+
+      if (success) {
+        setIsAuthenticated(!!token);
+        setIsLoading(false);
+      } else {
+        throw new Error('Token validation failed.');
+      }
+    } catch (err) {
+      Toast.show('Unauthenticated');
+      await AsyncStorage.clear()
+      setIsAuthenticated(false);
+      setIsLoading(false);
+    }
+  };
+  
+  const logout = async () => {
+    setIsLoading(true)
+    try {
+      await AsyncStorage.clear()
+      setIsAuthenticated(false)
+      setIsLoading(false)
+    } catch (err) {
+      setIsLoading(false)
+    }
+  }
 
   useEffect(() => {
-    const fetchTokenFromStorage = async () => {
-      const token = await AsyncStorage.getItem('TOKEN');
-
-      if (token) {
-        setIsAuthenticated(true);
-      } else {
-        setIsAuthenticated(false);
-      }
-    };
-
-    fetchTokenFromStorage();
+    getTokenFromAsyncStorage();
   }, []);
 
-  const login = async payload => {
-    try {
-      const response = await api.post('/auth/login', payload);
-
-      const {access_token, user} = response.data;
-
-      console.log('login response: ', response);
-
-      await AsyncStorage.setItem('TOKEN', access_token);
-
-      setIsAuthenticated(true);
-
-      setCurrentUser(user);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const updateProfile = async payload => {
-    try {
-      setCurrentUser(payload);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const savePasswordInKeychain = async payload => {
-    try {
-      const result = await Keychain.setGenericPassword(
-        payload.username,
-        payload.password,
-      );
-
-      console.log('savePasswordInKeychain: ', result);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const value = {
-    isAuthenticated,
-    currentUser,
-    setCurrentUser,
-    login,
-    updateProfile,
-    setIsAuthenticated,
-  };
+  const value = {isAuthenticated, setIsAuthenticated, isLoading, currentUser, setCurrentUser, logout};
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -6,15 +6,17 @@ import {
   Icon,
   Input,
   Modal,
-  Pressable,
+  Pressable, Spinner,
   Text,
   VStack,
-} from 'native-base';
+} from "native-base";
 import {Colors} from '../constants/colors';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export default function ForgotPasswordScreen() {
   const [loading, setLoading] = useState(false);
+  
+  const onSubmit = async () => await console.log('some stuff')
 
   return (
     <Center flex={1}>
@@ -28,27 +30,32 @@ export default function ForgotPasswordScreen() {
           variant="underlined"
           placeholder="email@example.com"
           InputLeftElement={
-            <Icon as={<MaterialIcons name="mail" />} size={5} />
+            <Icon as={<MaterialIcons name="mail" />} size={5} mx={2} />
           }
-          pl="2"
+          _focus={{
+            bg: Colors.white,
+            color: Colors.secondary,
+            borderColor: Colors.secondary
+          }}
           autoCapitalize={false}
         />
       </VStack>
-
-      <Center>
-        <Button
-          w="70%"
-          bg={Colors.secondary}
-          color={Colors.white}
-          rounded="full"
-          _pressed={{
-            bg: Colors.secondary,
-          }}
-          onPress={onSubmit}
-          loading={loading}>
-          {loading ? <Spinner color={Colors.white} /> : 'RESET PASSWORD'}
-        </Button>
-      </Center>
+      
+      <Button
+        mt={10}
+        alignItems='center'
+        w="60%"
+        bg={Colors.secondary}
+        color={Colors.white}
+        rounded="full"
+        _pressed={{
+          bg: Colors.secondary,
+        }}
+        onPress={onSubmit}
+        loading={loading}>
+        RESET PASSWORD
+      </Button>
+    
     </Center>
   );
 }

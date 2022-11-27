@@ -11,7 +11,6 @@ import {
   Image,
 } from 'native-base';
 import VersionInfo from 'react-native-version-info';
-import {SectionTitle} from './NewProjectScreen';
 import {Colors} from '../constants/colors';
 import DeviceInfo from 'react-native-device-info';
 

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "796051964323",
+    "firebase_url": "https://da-ipms2020.firebaseio.com",
+    "project_id": "da-ipms2020",
+    "storage_bucket": "da-ipms2020.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:796051964323:android:83f0b0c6a1314bceefda16",
+        "android_client_info": {
+          "package_name": "com.pipsnative"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "796051964323-7h6n24fuo5kolbfdgqcsf4ra7cnqog2a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdXcIny7SrTONGtI1c4omRSNhepFZTcRk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "796051964323-7h6n24fuo5kolbfdgqcsf4ra7cnqog2a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

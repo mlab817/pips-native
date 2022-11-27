@@ -9,7 +9,6 @@ import {
   Input,
   KeyboardAvoidingView,
   Pressable,
-  Spinner,
   Text,
   useToast,
   VStack,
@@ -19,17 +18,17 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Colors} from '../constants/colors';
 import {Keyboard, TouchableWithoutFeedback} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import {useAuth} from '../contexts/auth.context';
 import ReactNativeBiometrics, {BiometryTypes} from 'react-native-biometrics';
 import * as Keychain from 'react-native-keychain';
+import api from '../utils/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useAuth} from '../contexts/auth.context';
 
 const icon = require('../assets/icon.png');
 
 const rnBiometrics = new ReactNativeBiometrics();
 
 const BiometricsButton = ({genericPassword}) => {
-  const {login} = useAuth();
-
   const toast = useToast();
 
   const loginWithBiometrics = async () => {
@@ -49,8 +48,6 @@ const BiometricsButton = ({genericPassword}) => {
           username: payload.username,
           password: payload.password,
         });
-
-        navigation.navigate('Bottom');
       } else {
         throw new Error('User cancelled');
       }
@@ -75,6 +72,8 @@ const BiometricsButton = ({genericPassword}) => {
 };
 
 export default function LoginScreen({navigation}) {
+  const {isAuthenticated, setIsAuthenticated, setCurrentUser} = useAuth();
+
   const [biometricsAvailable, setBiometricsAvailable] = useState(false);
 
   const [genericPassword, setGenericPassword] = useState(false);
@@ -97,17 +96,33 @@ export default function LoginScreen({navigation}) {
 
   const [show, setShow] = useState(false);
 
-  const {isAuthenticated, login} = useAuth();
-
   const [credentials, setCredentials] = useState({
     username: '',
     password: '',
   });
 
+  const login = async () => {
+    try {
+      const response = await api.post('/auth/login', credentials);
+
+      const {access_token, user} = response.data;
+
+      await AsyncStorage.setItem('TOKEN', `${access_token}`);
+
+      console.log(response);
+      
+      setIsAuthenticated(true)
+      setCurrentUser(user)
+    } catch (err) {
+      console.log(err);
+      setIsAuthenticated(false)
+    }
+  };
+
   const onSubmit = async () => {
     if (!credentials.username || !credentials.password) return;
-
-    login(credentials);
+    
+    await login();
   };
 
   // check if there is a saved generic password
@@ -219,7 +234,7 @@ export default function LoginScreen({navigation}) {
               <BiometricsButton genericPassword={genericPassword} />
             )}
 
-            <Pressable mt={10} onPress={showForgotPassword}>
+            <Pressable h='44px' onPress={showForgotPassword}>
               <Text color={Colors.lightBlack}>Forgot Password?</Text>
             </Pressable>
 

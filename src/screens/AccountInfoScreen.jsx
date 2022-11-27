@@ -1,19 +1,31 @@
 import {Box, Text, Input, Button, Spinner} from 'native-base';
-import React, {useState} from 'react';
+import React, { useEffect, useState } from "react";
 import {Colors} from '../constants/colors';
-import {useAuth} from '../contexts/auth.context';
+import { useAuth } from "../contexts/auth.context";
 
 export default function AccountInfoScreen() {
   const [loading, setLoading] = useState(false);
-
-  const {currentUser, updateProfile} = useAuth();
+  
+  const { currentUser } = useAuth()
 
   const [accountInfo, setAccountInfo] = useState({
-    ...currentUser,
+    first_name: '',
+    last_name: '',
+    position: '',
+    contact_number: ''
   });
+  
+  useEffect(() => {
+    setAccountInfo(prevVal => ({
+      first_name: currentUser.first_name,
+      last_name: currentUser.last_name,
+      position: currentUser.position,
+      contact_number: currentUser.contact_number
+    }))
+  }, [currentUser])
 
   const onPress = () => {
-    updateProfile(accountInfo);
+    // updateProfile(accountInfo);
 
     setLoading(true);
 

@@ -1,14 +1,13 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Toast} from 'native-base';
+import {API_BASEURL} from '../data/baseurl';
 
 const api = axios.create({
-  baseURL: 'https://api.pips.da.gov.ph/api',
+  baseURL: API_BASEURL + '/api',
   headers: {
-    common: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
   },
 });
 
@@ -17,7 +16,7 @@ api.interceptors.request.use(
     const token = await AsyncStorage.getItem('TOKEN');
 
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
 
     return config;
@@ -41,7 +40,7 @@ api.interceptors.response.use(
       originalRequest._retry = true;
       const response = await api.post('/auth/refresh');
       const {access_token} = response.data;
-      api.config.headers['Authorization'] = 'Bearer ' + access_token;
+      api.config.headers.Authorization = 'Bearer ' + access_token;
       return api(originalRequest);
     }
     return Promise.reject(error);

@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* pipsnativeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* pipsnativeTests.m */; };
-		0C80B921A6F3F58F76C31292 /* libPods-pipsnative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-pipsnative.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		7699B88040F8A987B510C191 /* libPods-pipsnative-pipsnativeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-pipsnative-pipsnativeTests.a */; };
+		270D9810BEDECE0904F81660 /* libPods-pipsnative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85E98D589DEC85A98667F095 /* libPods-pipsnative.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		87CFA3BD9E615769B584AB32 /* libPods-pipsnative-pipsnativeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14D151640BADAF1CCE9B473C /* libPods-pipsnative-pipsnativeTests.a */; };
 		F3497ADC29134D9600540713 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3497ACC29134D9600540713 /* Fontisto.ttf */; };
 		F3497ADD29134D9600540713 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3497ACD29134D9600540713 /* Octicons.ttf */; };
 		F3497ADE29134D9600540713 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3497ACE29134D9600540713 /* Feather.ttf */; };
@@ -31,6 +31,8 @@
 		F3497AEA29134D9600540713 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3497ADA29134D9600540713 /* SimpleLineIcons.ttf */; };
 		F3497AEB29134D9600540713 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3497ADB29134D9600540713 /* MaterialIcons.ttf */; };
 		F3D8BB66291691700074092A /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3D8BB65291691700074092A /* BootSplash.storyboard */; };
+		F3F68C062932F39000871F64 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F3F68C052932F39000871F64 /* GoogleService-Info.plist */; };
+		F3F68C072932F39000871F64 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F3F68C052932F39000871F64 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,13 +55,13 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = pipsnative/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = pipsnative/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = pipsnative/main.m; sourceTree = "<group>"; };
-		19F6CBCC0A4E27FBF8BF4A61 /* libPods-pipsnative-pipsnativeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pipsnative-pipsnativeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3B4392A12AC88292D35C810B /* Pods-pipsnative.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pipsnative.debug.xcconfig"; path = "Target Support Files/Pods-pipsnative/Pods-pipsnative.debug.xcconfig"; sourceTree = "<group>"; };
-		5709B34CF0A7D63546082F79 /* Pods-pipsnative.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pipsnative.release.xcconfig"; path = "Target Support Files/Pods-pipsnative/Pods-pipsnative.release.xcconfig"; sourceTree = "<group>"; };
-		5B7EB9410499542E8C5724F5 /* Pods-pipsnative-pipsnativeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pipsnative-pipsnativeTests.debug.xcconfig"; path = "Target Support Files/Pods-pipsnative-pipsnativeTests/Pods-pipsnative-pipsnativeTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5DCACB8F33CDC322A6C60F78 /* libPods-pipsnative.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pipsnative.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		14D151640BADAF1CCE9B473C /* libPods-pipsnative-pipsnativeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pipsnative-pipsnativeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		56EAA5D0C98CF78DB3544A4D /* Pods-pipsnative.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pipsnative.release.xcconfig"; path = "Target Support Files/Pods-pipsnative/Pods-pipsnative.release.xcconfig"; sourceTree = "<group>"; };
+		67591F279746F432C82BAEFA /* Pods-pipsnative-pipsnativeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pipsnative-pipsnativeTests.release.xcconfig"; path = "Target Support Files/Pods-pipsnative-pipsnativeTests/Pods-pipsnative-pipsnativeTests.release.xcconfig"; sourceTree = "<group>"; };
+		6F797E4A1D31BECA1D2D0EC1 /* Pods-pipsnative.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pipsnative.debug.xcconfig"; path = "Target Support Files/Pods-pipsnative/Pods-pipsnative.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = pipsnative/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		89C6BE57DB24E9ADA2F236DE /* Pods-pipsnative-pipsnativeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pipsnative-pipsnativeTests.release.xcconfig"; path = "Target Support Files/Pods-pipsnative-pipsnativeTests/Pods-pipsnative-pipsnativeTests.release.xcconfig"; sourceTree = "<group>"; };
+		85E98D589DEC85A98667F095 /* libPods-pipsnative.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pipsnative.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B638B146244EE4A71751718A /* Pods-pipsnative-pipsnativeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pipsnative-pipsnativeTests.debug.xcconfig"; path = "Target Support Files/Pods-pipsnative-pipsnativeTests/Pods-pipsnative-pipsnativeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F3497ACC29134D9600540713 /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Fontisto.ttf; sourceTree = "<group>"; };
 		F3497ACD29134D9600540713 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 		F3497ADA29134D9600540713 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		F3497ADB29134D9600540713 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		F3D8BB65291691700074092A /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = pipsnative/BootSplash.storyboard; sourceTree = "<group>"; };
+		F3F68C052932F39000871F64 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,7 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7699B88040F8A987B510C191 /* libPods-pipsnative-pipsnativeTests.a in Frameworks */,
+				87CFA3BD9E615769B584AB32 /* libPods-pipsnative-pipsnativeTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,7 +96,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C80B921A6F3F58F76C31292 /* libPods-pipsnative.a in Frameworks */,
+				270D9810BEDECE0904F81660 /* libPods-pipsnative.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,8 +138,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5DCACB8F33CDC322A6C60F78 /* libPods-pipsnative.a */,
-				19F6CBCC0A4E27FBF8BF4A61 /* libPods-pipsnative-pipsnativeTests.a */,
+				85E98D589DEC85A98667F095 /* libPods-pipsnative.a */,
+				14D151640BADAF1CCE9B473C /* libPods-pipsnative-pipsnativeTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -151,6 +154,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				F3F68C052932F39000871F64 /* GoogleService-Info.plist */,
 				F3497ACB29134D9600540713 /* Fonts */,
 				13B07FAE1A68108700A75B9A /* pipsnative */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -176,10 +180,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3B4392A12AC88292D35C810B /* Pods-pipsnative.debug.xcconfig */,
-				5709B34CF0A7D63546082F79 /* Pods-pipsnative.release.xcconfig */,
-				5B7EB9410499542E8C5724F5 /* Pods-pipsnative-pipsnativeTests.debug.xcconfig */,
-				89C6BE57DB24E9ADA2F236DE /* Pods-pipsnative-pipsnativeTests.release.xcconfig */,
+				6F797E4A1D31BECA1D2D0EC1 /* Pods-pipsnative.debug.xcconfig */,
+				56EAA5D0C98CF78DB3544A4D /* Pods-pipsnative.release.xcconfig */,
+				B638B146244EE4A71751718A /* Pods-pipsnative-pipsnativeTests.debug.xcconfig */,
+				67591F279746F432C82BAEFA /* Pods-pipsnative-pipsnativeTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -215,12 +219,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "pipsnativeTests" */;
 			buildPhases = (
-				A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */,
+				FF055D1ABA87DEC9BF1E9BE7 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */,
-				F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */,
+				80DD8A2C1417C4228F0140DD /* [CP] Embed Pods Frameworks */,
+				6D309432D6BCCCD6EE0CD1BD /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -236,14 +240,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "pipsnative" */;
 			buildPhases = (
-				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
+				5DEB265002BD826EDDD09880 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
-				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
+				B97BD70849B4796FC93BA5C2 /* [CP] Embed Pods Frameworks */,
+				68363E24F14BE8BD96062C5C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -260,7 +264,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1210;
+				LastUpgradeCheck = 1410;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -295,6 +299,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3F68C072932F39000871F64 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,6 +324,7 @@
 				F3497AE229134D9600540713 /* AntDesign.ttf in Resources */,
 				F3497AEB29134D9600540713 /* MaterialIcons.ttf in Resources */,
 				F3497AE529134D9600540713 /* FontAwesome5_Solid.ttf in Resources */,
+				F3F68C062932F39000871F64 /* GoogleService-Info.plist in Resources */,
 				F3497AE129134D9600540713 /* MaterialCommunityIcons.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
@@ -343,46 +349,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-pipsnative/Pods-pipsnative-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-pipsnative/Pods-pipsnative-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-pipsnative/Pods-pipsnative-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-pipsnative-pipsnativeTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
+		5DEB265002BD826EDDD09880 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -404,24 +371,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-pipsnative-pipsnativeTests/Pods-pipsnative-pipsnativeTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-pipsnative-pipsnativeTests/Pods-pipsnative-pipsnativeTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-pipsnative-pipsnativeTests/Pods-pipsnative-pipsnativeTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
+		68363E24F14BE8BD96062C5C /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -438,7 +388,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-pipsnative/Pods-pipsnative-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */ = {
+		6D309432D6BCCCD6EE0CD1BD /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -453,6 +403,40 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-pipsnative-pipsnativeTests/Pods-pipsnative-pipsnativeTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		80DD8A2C1417C4228F0140DD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-pipsnative-pipsnativeTests/Pods-pipsnative-pipsnativeTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-pipsnative-pipsnativeTests/Pods-pipsnative-pipsnativeTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-pipsnative-pipsnativeTests/Pods-pipsnative-pipsnativeTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B97BD70849B4796FC93BA5C2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-pipsnative/Pods-pipsnative-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-pipsnative/Pods-pipsnative-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-pipsnative/Pods-pipsnative-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -472,6 +456,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		FF055D1ABA87DEC9BF1E9BE7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-pipsnative-pipsnativeTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -507,8 +513,9 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-pipsnative-pipsnativeTests.debug.xcconfig */;
+			baseConfigurationReference = B638B146244EE4A71751718A /* Pods-pipsnative-pipsnativeTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -534,8 +541,9 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-pipsnative-pipsnativeTests.release.xcconfig */;
+			baseConfigurationReference = 67591F279746F432C82BAEFA /* Pods-pipsnative-pipsnativeTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = pipsnativeTests/Info.plist;
@@ -558,11 +566,12 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-pipsnative.debug.xcconfig */;
+			baseConfigurationReference = 6F797E4A1D31BECA1D2D0EC1 /* Pods-pipsnative.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 94TXPS83K6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = pipsnative/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PIPS;
@@ -586,11 +595,12 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-pipsnative.release.xcconfig */;
+			baseConfigurationReference = 56EAA5D0C98CF78DB3544A4D /* Pods-pipsnative.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 94TXPS83K6;
 				INFOPLIST_FILE = pipsnative/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PIPS;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";

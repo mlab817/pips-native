@@ -1,37 +1,20 @@
 import React from 'react';
-import {
-  Box,
-  Button,
-  Heading,
-  HStack,
-  Icon,
-  Image,
-  Text,
-  VStack,
-} from 'native-base';
+import {Box, Button, Heading, HStack, Icon, Text, VStack} from 'native-base';
 import {Colors} from '../constants/colors';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Pressable} from 'react-native';
-import ScreenHeader from '../components/ScreenHeader';
-import {useAuth} from '../contexts/auth.context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAuth } from "../contexts/auth.context";
 
 export default function SettingScreen({navigation}) {
-  const {currentUser, setIsAuthenticated} = useAuth();
-
-  const handleLogout = async () => {
-    // await AsyncStorage.clear();
-
-    // navigation.navigate('Login');
-    setIsAuthenticated(false);
-    console.log('button is pressed');
-  };
+  const { currentUser, logout } = useAuth()
+  
+  const handleLogout = () => logout()
 
   return (
     <>
       <Box>
-        <HStack bg={Colors.secondary} pt={3} pb={5} px={2} alignItems="center">
+        <HStack bg={Colors.secondary} pt={10} pb={5} px={2} alignItems="center">
           <Icon
             as={<Ionicons name="md-person-circle" />}
             size={60}

@@ -1,5 +1,6 @@
-import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
+import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
+
 import ProjectsScreen from '../screens/ProjectsScreen';
 import ProjectScreen from '../screens/ProjectScreen';
 
@@ -12,8 +13,14 @@ export default function ProjectsNav() {
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="Projects" component={ProjectsScreen} />
-      <Stack.Screen name="Project" component={ProjectScreen} />
+      <Stack.Group>
+        <Stack.Screen name="Projects" component={ProjectsScreen} />
+      </Stack.Group>
+      <Stack.Group options={{
+        presentation: 'modal',
+      }}>
+        <Stack.Screen name="Project" component={ProjectScreen} />
+      </Stack.Group>
     </Stack.Navigator>
   );
 }

@@ -1,166 +1,101 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
-  Alert,
   Badge,
   Box,
   Button,
   Center,
   Divider,
   FlatList,
-  HStack,
-  Icon,
+  HStack, Icon,
   Image,
-  Input,
-  Pressable,
-  Spinner,
-  Text,
-  useToast,
+  Pressable, SearchIcon, Spinner,
+  Text, useToast,
   VStack,
-} from 'native-base';
+} from "native-base";
 import {Colors} from '../constants/colors';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import moment from 'moment';
-import Animated, {LightSpeedInLeft} from 'react-native-reanimated';
-import api from '../utils/api';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {ActivityIndicator} from 'react-native';
+import {useQuery, gql} from '@apollo/client';
+import ErrorComponent from '../components/ErrorComponent';
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-const AnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
-
-const ListEmptyComponent = ({onPress}) => {
-  return (
-    <Center flex={1}>
-      <Image
-        rounded={10}
-        source={require('../assets/empty.png')}
-        size={100}
-        alt="empty"
-      />
-      <Text mt={3} fontWeight="bold">
-        Nothing here
-      </Text>
-      <Button onPress={onPress} mt={3}>
-        Refresh
-      </Button>
-    </Center>
-  );
-};
-
-export default function ProjectsScreen() {
-  const [loading, setLoading] = useState(false);
-
-  const [hasChanged, setHasChanged] = useState(false);
-
-  const [search, setSearch] = useState('');
-
-  const [projects, setProjects] = useState([]);
-
-  const [filteredProjects, setFilteredProjects] = useState(projects);
-
-  const [page, setPage] = useState(1);
-
-  const loadProjects = async signal => {
-    setLoading(true);
-
-    try {
-      const response = await api.get('/projects', {
-        params: {
-          page: page,
-        },
-        signal: signal,
-      });
-
-      setProjects(prevProjects => [...prevProjects, ...response.data.data]);
-
-      setLoading(false);
-
-      console.log('result loaded');
-    } catch (err) {
-      setLoading(false);
+const GET_PROJECTS = gql`
+  query Projects(
+    $after: String
+  ) {
+    projects(
+      after: $after
+    ) {
+      edges {
+        cursor
+        node {
+          id
+          uuid
+          title
+          totalCost
+          office {
+            acronym
+          }
+          pipsStatus {
+            name
+          }
+          updatedAt
+        }
+      }
+      pageInfo {
+         endCursor
+         hasNextPage
+         total
+      }
     }
-  };
+  }
+`;
 
-  useEffect(() => {
-    console.log('currentPage: ', page);
-
-    const controller = new AbortController();
-
-    loadProjects(controller.signal);
-
-    return () => controller.abort();
-  }, [page]);
-
-  const nextPage = () => setPage(prevPage => prevPage + 1);
-
-  useEffect(() => {
-    if (search) {
-      const updatedFilteredProjects = projects.filter(
-        project =>
-          project.title?.toLowerCase().includes(search.toLowerCase()) ||
-          project.office?.acronym?.toLowerCase().includes(search.toLowerCase()),
-      );
-
-      setFilteredProjects(updatedFilteredProjects);
-    } else {
-      setFilteredProjects(projects);
-    }
-  }, [search, projects]);
-
-  const renderItem = ({item, index, separators}) => (
-    <Pressable onPress={() => alert(JSON.stringify(item))}>
-      <HStack
-        alignItems="flex-start"
-        justifyContent="space-between"
-        bg={Colors.white}
-        p={2}
-        h={24}
-        overflow="hidden">
-        <VStack w="70%">
-          <Text
-            isTruncated
-            color={Colors.black}
-            fontWeight="semibold"
-            fontSize={12}
-            noOfLines={2}>
-            {item.title}
-          </Text>
-          <Text fontSize={11}>{item.office?.acronym}</Text>
-        </VStack>
-        <VStack
-          w="30%"
-          h="full"
-          justifyContent="space-between"
-          alignItems="flex-end">
-          <Text isTruncated>PhP {item.total_cost?.toLocaleString()}</Text>
-
-          <Text fontSize={10}>
-            {moment(item.updated_at).format('MM/DD/YY HH:MM')}
-          </Text>
-        </VStack>
+export const Search = ({onPress}) => (
+  <Pressable onPress={onPress}>
+    <Box bg={Colors.secondary} px={2} py={4}>
+      <HStack space={3} alignItems='center'>
+        <SearchIcon color={Colors.white} />
+        
+        <Text fontSize='2xs' color={Colors.white}>Search programs & projects...</Text>
       </HStack>
-      <Badge
-        position="absolute"
-        bottom={2}
-        left={2}
-        alignSelf="flex-start"
-        variant="outline"
-        _text={{
-          fontSize: 10,
-        }}>
-        {item.pips_status?.name}
-      </Badge>
-    </Pressable>
-  );
+    </Box>
+  </Pressable>
+);
+
+export default function ProjectsScreen({ navigation }) {
+  const {loading, error, data, fetchMore} = useQuery(GET_PROJECTS, {
+    first: 10
+  });
+  
+  const edges = data?.projects?.edges?.map(edge => edge.node)
+  const pageInfo = data?.projects?.pageInfo
+  
+  const loadMore = () => {
+    fetchMore({
+      variables: {
+        after: pageInfo?.endCursor,
+      }
+    }).finally(() => toast.closeAll())
+  }
+  
+  const ListHeaderComponent = () => (
+    <>
+      <Search onPress={() => navigation.navigate('Search')} />
+      <HStack bg={Colors.lightGray} px={3} py={1} justifyContent='center'>
+        <Text fontSize='xs' fontWeight='bold'>Loaded {edges.length} of {pageInfo.total} PAPs</Text>
+      </HStack>
+    </>
+  )
 
   const ListFooterComponent = () => (
-    <Pressable onPress={nextPage}>
-      <Center>
-        <Text>
-          {loading ? <Spinner color={Colors.secondary} /> : 'Load More...'}
-        </Text>
-      </Center>
-    </Pressable>
-  );
-
+    <Center p={3}>
+      {
+        !pageInfo?.hasNextPage && <Text>END OF LIST</Text>
+      }
+    </Center>
+  )
+  
   const ItemSeparatorComponent = () => (
     <Divider
       color={Colors.secondary}
@@ -174,47 +109,127 @@ export default function ProjectsScreen() {
     />
   );
 
-  return (
-    <Box flex={1}>
-      <HStack
-        p={2}
-        space={2}
-        alignItems="center"
-        justifyContent="space-between">
-        <Input
-          w="full"
+  const ListEmptyComponent = () => (
+    <Center flex={1}>
+      <VStack space={3}>
+        <Image
           rounded={10}
-          h={8}
-          placeholder="Search..."
-          InputLeftElement={
-            <Icon as={<MaterialIcons name="search" size={5} />} ml="2" />
-          }
-          autoCapitalize={false}
-          _focus={{
-            bg: Colors.white,
-            borderColor: Colors.white,
-          }}
-          color={Colors.black}
+          source={require('../assets/empty.png')}
+          size={100}
+          alt="empty"
+        />
+        <Text mt={3} fontWeight="bold">
+          Nothing here
+        </Text>
+        <Button
+          size="sm"
+          // onPress={fetchData}
+          rounded="full"
+          bg={Colors.secondary}
+          _pressed={{
+            bg: Colors.secondary,
+          }}>
+          Refresh
+        </Button>
+      </VStack>
+    </Center>
+  );
+  
+  //  onPress={() => navigation.navigate('Project', {
+  //         uuid: item?.node?.uuid
+  //       })}
+  const renderItem = ({item, index, separators}) => {
+    
+    const formattedNumber = number => number?.toLocaleString();
+    
+    const { title, office: { acronym }, totalCost, updatedAt, pipsStatus } = item;
+    
+    return (
+      <Pressable>
+        <HStack
+          alignItems="flex-start"
+          justifyContent="space-between"
           bg={Colors.white}
-          onChangeText={val => setSearch(val)}
-        />
-      </HStack>
+          p={3}
+          h={24}
+          overflow="hidden">
+          <VStack w="60%">
+            <Text
+              isTruncated
+              color={Colors.black}
+              fontWeight="semibold"
+              fontSize='xs'
+              noOfLines={2}>
+              {title}
+            </Text>
+            <Text fontSize='2xs'>{acronym}</Text>
+          </VStack>
+          <VStack
+            w="40%"
+            h="full"
+            justifyContent="space-between"
+            alignItems="flex-end">
+            <Text isTruncated>PhP {formattedNumber(totalCost)}</Text>
+            
+            <HStack alignItems='center' space={0.5}>
+              <Icon as={<MaterialIcons name='access-time' size={8} />} />
+              <Text fontSize='xs'>
+                {moment(updatedAt).format("MM/DD/YY HH:MM")}
+              </Text>
+            </HStack>
+          </VStack>
+        </HStack>
+        
+        <Badge
+          position="absolute"
+          bottom={2}
+          left={2}
+          alignSelf="flex-start"
+          variant="outline"
+          _text={{
+            fontSize: '2xs',
+          }}>
+          {pipsStatus?.name}
+        </Badge>
+      </Pressable>
+    );
+  };
+  
+  const toast = useToast()
+  
+  const onEndReached = () => {
+    if (!pageInfo.hasNextPage) return
+    
+    toast.show({
+      title: <Spinner color={Colors.secondary} />
+    })
+    
+    loadMore()
+  }
 
-      <Box pb={60}>
-        <FlatList
-          keyExtractor={item => item.key}
-          renderItem={renderItem}
-          data={filteredProjects}
-          // onRefresh={onRefresh}
-          refreshing={loading}
-          // onEndReached={onEndReached}
-          // onEndReachedThreshold={10}
-          extraData={hasChanged}
-          ListFooterComponent={ListFooterComponent}
-          ListEmptyComponent={<ListEmptyComponent onPress={loadProjects} />}
-          ItemSeparatorComponent={ItemSeparatorComponent}
-        />
-      </Box>
-    </Box>
+  if (loading)
+    return (
+      <Center flex={1}>
+        <ActivityIndicator color={Colors.secondary} />
+      </Center>
+    );
+
+  if (error) return <ErrorComponent />;
+
+  return (
+    <FlatList
+        keyExtractor={item => item.uuid}
+        stickyHeaderIndices={[0]}
+        renderItem={renderItem}
+        data={edges}
+        showsVerticalScrollIndicator={false}
+        initialNumToRender={10}
+        ListHeaderComponent={ListHeaderComponent}
+        // ListFooterComponent={ListFooterComponent}
+        ListEmptyComponent={ListEmptyComponent}
+        ItemSeparatorComponent={ItemSeparatorComponent}
+        onEndReached={onEndReached}
+        // onEndReachedThreshold={0.8}
+      />
   );
 }

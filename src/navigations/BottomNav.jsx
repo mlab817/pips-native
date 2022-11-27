@@ -1,22 +1,23 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/HomeScreen';
-import ProjectsScreen from '../screens/ProjectsScreen';
-import NotificationScreen from '../screens/NotificationScreen';
-import SettingScreen from '../screens/SettingScreen';
+
 import {Colors} from '../constants/colors';
-import {Center, Pressable, Text} from 'native-base';
+import { Center, Pressable, Stack, Text } from "native-base";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import ReportScreen from '../screens/ReportScreen';
+
+import {useIsFocused} from '@react-navigation/native';
 
 import SettingNav from './SettingNav';
 import ProjectsNav from './ProjectsNav';
-import {useIsFocused} from '@react-navigation/native';
+
+import HomeScreen from '../screens/HomeScreen';
+import NotificationScreen from '../screens/NotificationScreen';
+import SearchScreen from "../screens/SearchScreen";
+import { TransitionPresets } from "@react-navigation/stack";
 
 const Tab = createBottomTabNavigator();
 
 const CustomTab = props => {
-  
   const isFocused = useIsFocused();
 
   return (
@@ -36,8 +37,6 @@ const CustomTab = props => {
 };
 
 export default function BottomNav() {
-  const onPress = () => console.log('onPress');
-
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -66,6 +65,7 @@ export default function BottomNav() {
             </Center>
           ),
           tabBarHideOnKeyboard: true,
+          headerShown: false
         }}
       />
 
@@ -112,6 +112,7 @@ export default function BottomNav() {
               )}
             </Center>
           ),
+          headerShown: false
         }}
       />
 
