@@ -6,8 +6,7 @@
  * @flow strict-local
  */
 
-import React, {useEffect, useState} from 'react';
-import {Alert} from 'react-native';
+import React from 'react';
 import {extendTheme, NativeBaseProvider} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
 import RNBootSplash from 'react-native-bootsplash';
@@ -15,12 +14,6 @@ import MainNav from './src/navigations/MainNav';
 import {ApolloProvider} from '@apollo/client';
 import {client} from './src/apollo/client';
 import {AuthProvider} from './src/contexts/auth.context';
-import NetInfo from '@react-native-community/netinfo';
-
-NetInfo.addEventListener(networkState => {
-  console.log('Connection type - ', networkState.type);
-  console.log('Is connected? - ', networkState.isConnected);
-});
 
 const linking = {
   prefixes: ['https://pips.da.gov.ph', 'pips://'],
@@ -39,26 +32,21 @@ const colorsTheme = {
   },
 };
 
-const theme = extendTheme({colors: colorsTheme});
+const customTheme = extendTheme({colors: colorsTheme});
 
-const App = () => {
+type CustomThemeType = typeof customTheme;
+
+declare module 'native-base' {
+  interface ICustomTheme extends CustomThemeType {}
+}
+
+const App: React.FC = () => {
   const hideSplashScreen = () => RNBootSplash.hide();
-
-  const [isOffline, setOfflineStatus] = useState(false);
-
-  useEffect(() => {
-    const removeNetInfoSubscription = NetInfo.addEventListener(state => {
-      const offline = !(state.isConnected && state.isInternetReachable);
-      setOfflineStatus(offline);
-    });
-
-    return () => removeNetInfoSubscription();
-  }, []);
 
   return (
     <ApolloProvider client={client}>
       <AuthProvider>
-        <NativeBaseProvider theme={theme}>
+        <NativeBaseProvider theme={customTheme}>
           <NavigationContainer onReady={hideSplashScreen} linking={linking}>
             <MainNav />
           </NavigationContainer>

@@ -4,13 +4,9 @@ import {
   Button,
   Center,
   FlatList,
-  Flex,
-  Heading,
   HStack,
   Icon,
-  IconButton,
   Image,
-  ScrollView,
   Text,
   VStack,
 } from 'native-base';
@@ -123,7 +119,7 @@ export default function NotificationScreen() {
         showsVerticalScrollIndicator={false}
         data={notifications}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.uuid}
         ListEmptyComponent={ListEmptyComponent}
       />
     </Box>

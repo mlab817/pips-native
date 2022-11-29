@@ -9,7 +9,7 @@ import {
 } from "react-native-chart-kit";
 
 const GET_STATUSES = gql`
-  query {
+  query pipsStatuses {
     pipsStatuses {
       id
       name
@@ -40,10 +40,6 @@ const StatusItem = ({item}) => (
 
 export default function HomeScreen({ navigation }) {
   const {loading, error, data} = useQuery(GET_STATUSES);
-
-  console.log('home:error: ', error);
-
-  console.log('home:data: ', data);
   
   const showSearch = () => navigation.navigate('Search')
   

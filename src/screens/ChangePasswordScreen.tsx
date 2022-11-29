@@ -1,3 +1,4 @@
+import React, {useState} from 'react';
 import {
   Box,
   Text,
@@ -7,21 +8,20 @@ import {
   Checkbox,
   useToast,
 } from 'native-base';
-import React, {useState} from 'react';
-import {SectionTitle} from './NewProjectScreen';
 import {Colors} from '../constants/colors';
 
-export default function ChangePasswordScreen() {
+const ChangePasswordScreen: React.FC = () => {
   const toast = useToast();
-  const [loading, setLoading] = useState(false);
 
-  const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const [show, setShow] = useState(undefined);
 
   const toggleShow = () => setShow(!show);
 
   const onPress = () => {
     setLoading(true);
-    console.log('onPress');
+
     setTimeout(() => {
       setLoading(false);
       toast.show({
@@ -33,10 +33,8 @@ export default function ChangePasswordScreen() {
 
   return (
     <Box flex={1}>
-      {/* <SectionTitle title="Change Password" /> */}
-
       <Box p={2} bg={Colors.white}>
-        <Text fontSize={10} color="#999999">
+        <Text fontSize={10} color={Colors.gray}>
           NEW PASSWORD
         </Text>
 
@@ -71,12 +69,12 @@ export default function ChangePasswordScreen() {
 
       <Box p={2} bg={Colors.white}>
         <Checkbox
-          value={show}
           onChange={toggleShow}
           _text={{
             fontSize: 10,
             color: '#999999',
-          }}>
+          }}
+          value="1">
           SHOW PASSWORD
         </Checkbox>
       </Box>
@@ -96,4 +94,6 @@ export default function ChangePasswordScreen() {
       </Box>
     </Box>
   );
-}
+};
+
+export default ChangePasswordScreen;

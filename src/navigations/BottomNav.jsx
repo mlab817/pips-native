@@ -90,6 +90,29 @@ export default function BottomNav() {
           title: 'Projects',
         }}
       />
+      
+      <Tab.Screen
+        name='Search'
+        component={SearchScreen} options={{
+          tabBarIcon: ({focused}) => (
+            <Center>
+              {focused ? (
+                <MaterialIcons
+                  name="search"
+                  size={24}
+                  color={Colors.secondary}
+                />
+              ) : (
+                <MaterialIcons
+                  name="search"
+                  size={24}
+                  color={Colors.black}
+                />
+              )}
+            </Center>
+          ),
+          headerShown: false
+        }}/>
 
       <Tab.Screen
         name="Notifications"

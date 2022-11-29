@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { ArrowBackIcon, Box, Divider, FlatList, HStack, Input, SearchIcon, Spinner, Text } from "native-base";
 import { gql, useLazyQuery, useQuery } from "@apollo/client";
 import { Colors } from "../constants/colors";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, TouchableOpacity } from "react-native";
 import EmptyComponent from "../components/EmptyComponent";
 import { err } from "react-native-svg/lib/typescript/xml";
 
@@ -12,6 +12,7 @@ const SEARCH_PROJECTS = gql`
       edges {
         node {
           id
+          uuid
           title
           office {
             acronym
@@ -69,13 +70,15 @@ export default function SearchScreen({ navigation }) {
   console.log('data: ', data)
   
   const renderItem = ({ item }) => (
-    <Box h={16}>
-      <HStack space={3} p={3}>
-        <Text fontSize={10} w='20%'>{item.office?.acronym}</Text>
+    <TouchableOpacity onPress={() => navigation.navigate('Project', { uuid: item.uuid })}>
+      <Box h={16}>
+        <HStack space={3} p={3}>
+          <Text fontSize={10} w='20%'>{item.office?.acronym}</Text>
         
-        <Text fontSize={10} w='75%' noOfLines={2} isTruncated>{item.title}</Text>
-      </HStack>
-    </Box>
+          <Text fontSize={10} w='75%' noOfLines={2} isTruncated>{item.title}</Text>
+        </HStack>
+      </Box>
+    </TouchableOpacity>
   )
   
   const handleBackPress = () => navigation.goBack()

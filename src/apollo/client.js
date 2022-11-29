@@ -23,12 +23,7 @@ const cache = new InMemoryCache({
   typePolicies: {
     Query: {
       fields: {
-        projects: relayStylePagination(), // {
-        //   keyArgs: false,
-        // },
-        // merge(existing = [], incoming) {
-        //   return [...existing, ...incoming];
-        // },
+        projects: relayStylePagination(),
       },
     },
   },

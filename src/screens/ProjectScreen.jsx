@@ -1,4 +1,16 @@
-import { ArrowBackIcon, Box, Divider, HStack, Input, ScrollView, Spinner, Text, VStack } from "native-base";
+import {
+  ArrowBackIcon,
+  Box,
+  Button,
+  Center,
+  Divider,
+  HStack,
+  Input,
+  ScrollView,
+  Spinner,
+  Text,
+  VStack,
+} from "native-base";
 import React from 'react';
 import { gql, useQuery } from "@apollo/client";
 import { Colors } from "../constants/colors";
@@ -49,6 +61,8 @@ export default function ProjectScreen({ route, navigation }) {
   
   const handleBackPress = () => navigation.goBack()
   
+  const showPdf = () => navigation.navigate('Pdf', {uuid: uuid})
+  
   if (loading) return <LoadingScreen />
   
   return (
@@ -59,7 +73,7 @@ export default function ProjectScreen({ route, navigation }) {
       </HStack>
       
       <ScrollView showsVerticalScrollIndicator={false}>
-        <VStack space={1} bg={Colors.white} my={3} mx={1} borderRadius={10}>
+        <VStack space={1} bg={Colors.white} my={3} mx={3} borderRadius={10}>
           <Box p={2}>
             <Text fontSize={10}>Title</Text>
             <Text fontSize={12} fontWeight='bold'>{data.project?.title}</Text>
@@ -106,8 +120,13 @@ export default function ProjectScreen({ route, navigation }) {
             <Text fontSize={10}>Main Funding Source</Text>
             <Text fontSize={12} fontWeight='bold'>{data.project?.fundingSource?.name}</Text>
           </Box>
+          
         </VStack>
       </ScrollView>
+      
+      <Center p={3}>
+        <Button size='sm' bgColor={Colors.secondary} rounded='full' w='40%' onPress={showPdf}>View PDF</Button>
+      </Center>
     </Box>
   );
 }

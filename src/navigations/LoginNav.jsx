@@ -1,8 +1,9 @@
-import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
+import {createStackNavigator} from '@react-navigation/stack';
+import {TransitionPresets} from '@react-navigation/stack';
+
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import LoginScreen from '../screens/LoginScreen';
-import {TransitionPresets} from '@react-navigation/stack';
 import {Colors} from '../constants/colors';
 
 const Stack = createStackNavigator();
@@ -22,7 +23,6 @@ export default function LoginNav() {
           name="ForgotPassword"
           component={ForgotPasswordScreen}
           options={{
-            // headerShown: false,
             headerTitle: 'Forgot Password',
             headerTitleAlign: 'center',
             headerTitleStyle: {
@@ -33,7 +33,7 @@ export default function LoginNav() {
             },
 
             headerTintColor: Colors.white,
-            ...TransitionPresets.SlideFromRightIOS,
+            ...TransitionPresets.ModalSlideFromBottomIOS,
           }}
         />
       </Stack.Group>
