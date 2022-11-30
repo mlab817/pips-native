@@ -1,23 +1,23 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/HomeScreen';
-import ProjectsScreen from '../screens/ProjectsScreen';
-import NotificationScreen from '../screens/NotificationScreen';
-import SettingScreen from '../screens/SettingScreen';
+
 import {Colors} from '../constants/colors';
-import {Center, Pressable, Text} from 'native-base';
+import { Center, Pressable, Stack, Text } from "native-base";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import ReportScreen from '../screens/ReportScreen';
-import NewProjectScreen from '../screens/NewProjectScreen';
-import ProjectNav from './ProjectNav';
+
+import {useIsFocused} from '@react-navigation/native';
+
 import SettingNav from './SettingNav';
 import ProjectsNav from './ProjectsNav';
-import {useIsFocused} from '@react-navigation/native';
+
+import HomeScreen from '../screens/HomeScreen';
+import NotificationScreen from '../screens/NotificationScreen';
+import SearchScreen from "../screens/SearchScreen";
+import { TransitionPresets } from "@react-navigation/stack";
 
 const Tab = createBottomTabNavigator();
 
 const CustomTab = props => {
-  console.log('CustomTab props', props);
   const isFocused = useIsFocused();
 
   return (
@@ -37,11 +37,9 @@ const CustomTab = props => {
 };
 
 export default function BottomNav() {
-  const onPress = () => console.log('onPress');
-
   return (
     <Tab.Navigator
-      initialRouteName="NewProjectScreen"
+      initialRouteName="Home"
       screenOptions={{
         tabBarActiveTintColor: Colors.secondary,
         // tabBarShowLabel: false,
@@ -67,6 +65,7 @@ export default function BottomNav() {
             </Center>
           ),
           tabBarHideOnKeyboard: true,
+          headerShown: false
         }}
       />
 
@@ -91,24 +90,29 @@ export default function BottomNav() {
           title: 'Projects',
         }}
       />
-
-      {/* <Tab.Screen
-        name="NewProjectNav"
-        component={ProjectNav}
-        options={{
-          tabBarButton: props => <CustomTab {...props} />,
+      
+      <Tab.Screen
+        name='Search'
+        component={SearchScreen} options={{
           tabBarIcon: ({focused}) => (
-            <MaterialIcons
-              name="add-circle"
-              size={30}
-              color={focused ? Colors.secondary : Colors.black}
-            />
+            <Center>
+              {focused ? (
+                <MaterialIcons
+                  name="search"
+                  size={24}
+                  color={Colors.secondary}
+                />
+              ) : (
+                <MaterialIcons
+                  name="search"
+                  size={24}
+                  color={Colors.black}
+                />
+              )}
+            </Center>
           ),
-          tabBarLabel: () => null,
-          title: 'New Project',
-          headerShown: false,
-        }}
-      /> */}
+          headerShown: false
+        }}/>
 
       <Tab.Screen
         name="Notifications"
@@ -131,6 +135,7 @@ export default function BottomNav() {
               )}
             </Center>
           ),
+          headerShown: false
         }}
       />
 

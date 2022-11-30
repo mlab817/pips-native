@@ -4,8 +4,6 @@ export const Colors = {
   black: '#000000',
   white: '#FFFFFF',
   red: '#8B0000',
-  // red: '#ff0000',
-  // lightBlack: '#bcbcbc',
   lightBlack: '#777777',
   orange: '#ffce31',
   gray: '#999999',
@@ -15,4 +13,5 @@ export const Colors = {
   blue: '#3b87f9',
   underline: '#e5e5e5',
   paypal: '#ffb730',
+  lightGray: '#F8F8F8',
 };

@@ -1,212 +1,193 @@
-import React, {useEffect, useState} from 'react';
+import React, { useCallback, useState } from "react";
 import {
-  Alert,
-  Badge,
   Box,
   Button,
   Center,
+  Divider,
   FlatList,
   HStack,
-  Icon,
   Image,
-  Input,
   Pressable,
+  SearchIcon,
   Spinner,
   Text,
   useToast,
   VStack,
-} from 'native-base';
+} from "native-base";
 import {Colors} from '../constants/colors';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import moment from 'moment';
-import Animated, {LightSpeedInLeft} from 'react-native-reanimated';
-import api from '../utils/api';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { ActivityIndicator, TouchableOpacity } from "react-native";
+import { useQuery, gql, NetworkStatus, useLazyQuery } from "@apollo/client";
+import ErrorComponent from '../components/ErrorComponent';
+import ProjectItem from "../components/ProjectItem";
 
-const AnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
+const GET_PROJECTS = gql`
+  query Projects(
+    $first: Int
+    $after: String
+  ) {
+    projects(
+      first: $first,
+      after: $after
+    ) {
+      pageInfo {
+          endCursor
+          hasNextPage
+          total
+      }
+      edges {
+        cursor
+        node {
+          id
+          uuid
+          title
+          totalCost
+          office {
+            acronym
+          }
+          pipsStatus {
+            name
+          }
+          updatedAt
+        }
+      }
+    }
+  }
+`;
 
-const ListEmptyComponent = ({onPress}) => {
-  return (
-    <Center flex={1}>
-      <Image
-        rounded={10}
-        source={require('../assets/empty.png')}
-        size={100}
-        alt="empty"
-      />
-      <Text mt={3} fontWeight="bold">
-        Nothing here
-      </Text>
-      <Button onPress={onPress} mt={3}>
-        Refresh
-      </Button>
-    </Center>
-  );
-};
-
-const renderItem = ({item, index, separators}) => (
-  <Pressable onPress={() => alert(JSON.stringify(item))}>
-    <Box mb={2} shadow={2}>
-      <HStack
-        alignItems="flex-start"
-        justifyContent="space-between"
-        bg={Colors.white}
-        shadow={1}
-        rounded={10}
-        p={2}
-        h={24}
-        overflow="hidden">
-        <VStack w="70%">
-          <Text
-            isTruncated
-            color={Colors.black}
-            fontWeight="semibold"
-            fontSize={12}
-            noOfLines={2}>
-            {item.title}
-          </Text>
-          <Text fontSize={11}>{item.office?.acronym}</Text>
-        </VStack>
-        <VStack
-          w="30%"
-          h="full"
-          justifyContent="space-between"
-          alignItems="flex-end">
-          <Text isTruncated>PhP {item.total_cost?.toLocaleString()}</Text>
-
-          <Text fontSize={10}>
-            {moment(item.updated_at).format('MM/DD/YY HH:MM')}
-          </Text>
-        </VStack>
+export const Search = ({onPress}) => (
+  <Pressable onPress={onPress}>
+    <Box bg={Colors.secondary} px={2} py={4}>
+      <HStack space={3} alignItems='center'>
+        <SearchIcon color={Colors.white} />
+        
+        <Text fontSize='2xs' color={Colors.white}>Search programs & projects...</Text>
       </HStack>
-      <Badge
-        position="absolute"
-        bottom={2}
-        left={2}
-        alignSelf="flex-start"
-        variant="outline"
-        _text={{
-          fontSize: 10,
-        }}>
-        {item.pips_status?.name}
-      </Badge>
     </Box>
   </Pressable>
 );
 
-export default function ProjectsScreen() {
-  const [loading, setLoading] = useState(false);
+const ItemSeparatorComponent = (
+  <Divider
+    color={Colors.secondary}
+    _light={{
+      bg: 'muted.500',
+    }}
+    _dark={{
+      bg: 'muted.50',
+    }}
+    width={0.3}
+  />
+);
 
-  const [hasChanged, setHasChanged] = useState(false);
+export default function ProjectsScreen({ navigation }) {
+  const {loading, error, data, refetch, networkStatus, fetchMore} = useQuery(GET_PROJECTS, {
+    variables: {
+      first: 25
+    },
+    fetchPolicy: 'cache-and-network',
+    notifyOnNetworkStatusChange: true
+  });
+  
+  const [endReachedCalledDuringMomentum, setEndReachedCalledDuringMomentum] = useState(true)
+  
+  const edges = data?.projects?.edges?.map(edge => edge.node) || []
+  
+  const pageInfo = data?.projects?.pageInfo || {}
 
-  const [search, setSearch] = useState('');
-
-  const [projects, setProjects] = useState([]);
-
-  const [filteredProjects, setFilteredProjects] = useState(projects);
-
-  const [page, setPage] = useState(1);
-
-  const loadProjects = async signal => {
-    setLoading(true);
-
+  const ListEmptyComponent = () => (
+    <Center flex={1}>
+      <VStack space={3}>
+        <Image
+          rounded={10}
+          source={require('../assets/empty.png')}
+          size={100}
+          alt="empty"
+        />
+        <Text mt={3} fontWeight="bold">
+          Nothing here
+        </Text>
+        <Button
+          size="sm"
+          // onPress={fetchData}
+          rounded="full"
+          bg={Colors.secondary}
+          _pressed={{
+            bg: Colors.secondary,
+          }}>
+          Refresh
+        </Button>
+      </VStack>
+    </Center>
+  );
+  
+  const toast = useToast()
+  
+  const onEndReached = () => {
+    console.log('end reached triggered');
+    console.log('onEndReached - endReachedCalledDuringMomentum: ', endReachedCalledDuringMomentum)
+    
     try {
-      const response = await api.get('/projects', {
-        params: {
-          page: page,
-        },
-        signal: signal,
-      });
-
-      setProjects(prevProjects => [...prevProjects, ...response.data.data]);
-
-      setLoading(false);
-
-      console.log('result loaded');
-    } catch (err) {
-      setLoading(false);
+      if (endReachedCalledDuringMomentum) return
+      
+      if (!pageInfo.hasNextPage) return
+  
+      toast.show({
+        title: <Spinner color={Colors.secondary} />
+      })
+  
+      console.log('end reach called momentum')
+  
+      fetchMore({
+        variables: {
+          after: pageInfo?.endCursor,
+          first: 25
+        }
+      }).finally(() => {
+        console.log('fetchMore completed')
+        setEndReachedCalledDuringMomentum(true)
+        toast.closeAll();
+      })
+      // } else {
+      //   console.log('endReachedCalledDuringMomentum is true')
+      // }
+  
+      setEndReachedCalledDuringMomentum(true)
+    } catch(err) {
+      console.error(err)
     }
-  };
+  }
+  
+  const onMomentumScrollBegin = () => setEndReachedCalledDuringMomentum(false)
+  
+  const refreshing = networkStatus === NetworkStatus.refetch
+  
+  const showProject = (item) => navigation.navigate('Project', {uuid: item.uuid})
+  
+  if (loading && edges.length === 0)
+    return (
+      <Center flex={1}>
+        <ActivityIndicator color={Colors.secondary} />
+      </Center>
+    );
 
-  useEffect(() => {
-    console.log('currentPage: ', page);
-
-    const controller = new AbortController();
-
-    loadProjects(controller.signal);
-
-    return () => controller.abort();
-  }, [page]);
-
-  const nextPage = () => setPage(prevPage => prevPage + 1);
-
-  useEffect(() => {
-    if (search) {
-      const updatedFilteredProjects = projects.filter(
-        project =>
-          project.title?.toLowerCase().includes(search.toLowerCase()) ||
-          project.office?.acronym?.toLowerCase().includes(search.toLowerCase()),
-      );
-
-      setFilteredProjects(updatedFilteredProjects);
-    } else {
-      setFilteredProjects(projects);
-    }
-  }, [search, projects]);
+  if (error) return <ErrorComponent />;
 
   return (
-    <Box flex={1}>
-      <HStack
-        space={2}
-        m={2}
-        alignItems="center"
-        justifyContent="space-between">
-        <Input
-          w="full"
-          rounded={10}
-          h={8}
-          placeholder="Search..."
-          InputLeftElement={
-            <Icon as={<MaterialIcons name="search" size={5} />} ml="2" />
-          }
-          autoCapitalize={false}
-          _focus={{
-            bg: Colors.white,
-            borderColor: Colors.white,
-          }}
-          color={Colors.black}
-          bg={Colors.white}
-          onChangeText={val => setSearch(val)}
-        />
-      </HStack>
-
-      <Box px={2} pb={60}>
-        <FlatList
-          entering={LightSpeedInLeft}
-          keyExtractor={item => item.key}
-          renderItem={renderItem}
-          data={filteredProjects}
-          // onRefresh={onRefresh}
-          refreshing={loading}
-          // onEndReached={onEndReached}
-          // onEndReachedThreshold={10}
-          extraData={hasChanged}
-          ListFooterComponent={
-            <Pressable onPress={nextPage}>
-              <Center>
-                <Text>
-                  {loading ? (
-                    <Spinner color={Colors.secondary} />
-                  ) : (
-                    'Load More...'
-                  )}
-                </Text>
-              </Center>
-            </Pressable>
-          }
-          ListEmptyComponent={<ListEmptyComponent onPress={loadProjects} />}
-        />
-      </Box>
-    </Box>
+    <FlatList
+        keyExtractor={item => item.uuid}
+        // stickyHeaderIndices={[0]}
+        renderItem={({ item }) => <ProjectItem item={item} onPress={() => showProject(item)} />}
+        data={edges}
+        showsVerticalScrollIndicator={false}
+        initialNumToRender={8}
+        // ListHeaderComponent={ListHeaderComponent}
+        // ListEmptyComponent={ListEmptyComponent}
+        onRefresh={refetch}
+        refreshing={refreshing}
+        // ItemSeparatorComponent={ItemSeparatorComponent}
+        onEndReached={onEndReached}
+        onEndReachedThreshold={0.5}
+        onMomentumScrollBegin={onMomentumScrollBegin}
+      />
   );
 }

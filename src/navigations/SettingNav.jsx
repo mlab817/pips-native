@@ -10,37 +10,43 @@ const Stack = createStackNavigator();
 export default function SettingNav() {
   return (
     <Stack.Navigator initialRouteName="Setting">
-      <Stack.Screen
-        name="Setting"
-        component={SettingScreen}
-        options={{
-          headerShown: false,
-          headerTitle: 'Settings',
-          headerTitleAlign: 'center',
-          headerTitleStyle: {
-            color: Colors.white,
-          },
-          headerStyle: {
-            backgroundColor: Colors.secondary,
-          },
-          headerLeft: () => <></>,
-        }}
-      />
+      <Stack.Group>
+        <Stack.Screen
+          name="Setting"
+          component={SettingScreen}
+          options={{
+            headerShown: false,
+            headerTitle: 'Settings',
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: Colors.white,
+            },
+            headerStyle: {
+              backgroundColor: Colors.secondary,
+            }
+          }}
+        />
+      </Stack.Group>
+      
       <Stack.Group
         screenOptions={{
-          // headerShown: false,
           presentation: 'modal',
-          headerStyle: {
-            backgroundColor: Colors.secondary,
-          },
-          headerTintColor: Colors.white,
+          headerMode: 'screen',
+          gestureEnabled: true,
+          // headerStyle: {
+          //   backgroundColor: Colors.secondary,
+          // },
+          // headerTintColor: Colors.secondary,
           headerTitleAlign: 'center',
           // headerBackTitleStyle: {
-          //   fontSize: 14,
+          //   fontSize: 12,
+          //   color: Colors.white
           // },
-          headerTitleStyle: {
-            fontSize: 16,
-          },
+          // headerTitleStyle: {
+          //   fontSize: 14,
+          //   color: Colors.white
+          // },
+          ...TransitionPresets.SlideFromRightIOS,
         }}>
         <Stack.Screen
           name="AccountInfo"
@@ -48,7 +54,6 @@ export default function SettingNav() {
           options={{
             // headerShown: false,
             headerTitle: 'Account Information',
-            ...TransitionPresets.SlideFromRightIOS,
           }}
         />
         <Stack.Screen
@@ -57,7 +62,6 @@ export default function SettingNav() {
           options={{
             // headerShown: false,
             headerTitle: 'Change Password',
-            ...TransitionPresets.SlideFromRightIOS,
           }}
         />
         <Stack.Screen
@@ -66,7 +70,6 @@ export default function SettingNav() {
           options={{
             // headerShown: false,
             headerTitle: 'About',
-            ...TransitionPresets.SlideFromRightIOS,
           }}
         />
       </Stack.Group>
