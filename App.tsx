@@ -14,6 +14,7 @@ import MainNav from './src/navigations/MainNav';
 import {ApolloProvider} from '@apollo/client';
 import {client} from './src/apollo/client';
 import {AuthProvider} from './src/contexts/auth.context';
+import ErrorBoundary from './src/components/ErrorBoundary';
 
 const linking = {
   prefixes: ['https://pips.da.gov.ph', 'pips://'],
@@ -47,9 +48,11 @@ const App: React.FC = () => {
     <ApolloProvider client={client}>
       <AuthProvider>
         <NativeBaseProvider theme={customTheme}>
-          <NavigationContainer onReady={hideSplashScreen} linking={linking}>
-            <MainNav />
-          </NavigationContainer>
+          <ErrorBoundary>
+            <NavigationContainer onReady={hideSplashScreen} linking={linking}>
+              <MainNav />
+            </NavigationContainer>
+          </ErrorBoundary>
         </NativeBaseProvider>
       </AuthProvider>
     </ApolloProvider>

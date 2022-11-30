@@ -53,7 +53,7 @@ const ListSeparatorComponent = () => (<Divider
 export default function SearchScreen({ navigation }) {
   console.log('SearchScreen mounted')
   
-  const [search, setSearch] = useState('quis')
+  const [search, setSearch] = useState('')
   
   const [getData, { loading, error, data }] = useLazyQuery(SEARCH_PROJECTS, {
     variables: {
@@ -83,7 +83,7 @@ export default function SearchScreen({ navigation }) {
   
   const handleBackPress = () => navigation.goBack()
   
-  if (error) return <Text>{JSON.stringify(error)}</Text>
+  if (error) return <Text>Something went wrong: Error No. {error.code}</Text>
   
   return (
     <FlatList

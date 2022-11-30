@@ -27,9 +27,6 @@ const PdfScreen = ({route, navigation}) => {
   const toast = useToast()
   
   const handleShare = async () => {
-    toast.show({
-      title: 'share initiated'
-    })
     try {
       const result = await Share.open({
         url: 'file:///' + downloadedFile,
@@ -38,13 +35,8 @@ const PdfScreen = ({route, navigation}) => {
         message: 'Attached is the PAP profile from PIPS',
         subject: '[PIPS] PAP Profile'
       })
-      
-      console.log(result)
     } catch (error) {
-      console.log(error)
-      toast.show({
-        title: error.message
-      });
+    
     }
   }
   
@@ -52,7 +44,7 @@ const PdfScreen = ({route, navigation}) => {
   
   return (
     <Box style={styles.container}>
-      <HStack alignItems='center' justifyContent='space-between' w='full' bgColor={Colors.secondary}>
+      <HStack alignItems='center' justifyContent='space-between' w='full' bgColor={Colors.secondary} h={60} px={2}>
         <BackButton onPress={handleBack} />
         
         <Text fontSize='lg' fontWeight='bold' color={Colors.white}>Project Details</Text>
@@ -74,9 +66,9 @@ const PdfScreen = ({route, navigation}) => {
         onError={(error) => {
           console.log(error);
         }}
-        onPressLink={(uri) => {
-          console.log(`Link pressed: ${uri}`);
-        }}
+        // onPressLink={(uri) => {
+        //   console.log(`Link pressed: ${uri}`);
+        // }}
         fitWidth={true}
         style={styles.pdf} />
     </Box>

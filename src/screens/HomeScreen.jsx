@@ -55,7 +55,7 @@ export default function HomeScreen({ navigation }) {
   if (error)
     return (
       <Center flex={1}>
-        <Text>{JSON.stringify(error)}</Text>
+        <Text>Something went wrong.</Text>
       </Center>
     );
 
